@@ -8,6 +8,7 @@ void logo();
 void hline();
 void hideCursor();
 void showCursor();
+void moveCursor(int x, int y);
 void textWhite();
 void textGreen();
 void textRed();

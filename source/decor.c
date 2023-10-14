@@ -40,6 +40,12 @@ void showCursor()
     SetConsoleCursorInfo(handle, &cursor);
 }
 
+void moveCursor (int x, int y)
+{
+    COORD cursorPos = {x, y};
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPos);
+}
+
 void textWhite()
 {
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);

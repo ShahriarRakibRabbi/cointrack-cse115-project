@@ -61,10 +61,7 @@ void quit()
     nl;
     for (int i = 5; i > 0; i--)
     {
-        COORD cursorPos;
-        cursorPos.X = 0; // Character number
-        cursorPos.Y = 10; // Line number (0-based)
-        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPos);
+        moveCursor(0, 10);
         printf("\t\tClosing in %d seconds...\n", i);
         Sleep(1000);
     }
