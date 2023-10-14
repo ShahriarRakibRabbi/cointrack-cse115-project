@@ -22,6 +22,7 @@
 
 // Custom functions
 void startScreen();
+void quit();
 
 
 // ========= END =========

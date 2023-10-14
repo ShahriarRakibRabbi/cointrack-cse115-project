@@ -43,8 +43,30 @@ void startScreen()
         printf("\t\t=== Admin Panel ===\n");
         break;
     case '4':
-        exit(0);
+        quit();
         break;
     }
     Sleep(2000);
+}
+
+void quit()
+{
+    system("cls");
+    logo();
+    hline();
+    nl;
+    printf("\t\tThank you for choosing CoinTrack!\n");
+    hline();
+    textRed();
+    nl;
+    for (int i = 5; i > 0; i--)
+    {
+        COORD cursorPos;
+        cursorPos.X = 0; // Character number
+        cursorPos.Y = 10; // Line number (0-based)
+        SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), cursorPos);
+        printf("\t\tClosing in %d seconds...\n", i);
+        Sleep(1000);
+    }
+    exit(0);
 }
