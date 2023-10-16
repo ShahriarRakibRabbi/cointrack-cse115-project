@@ -13,6 +13,7 @@ void textWhite();
 void textGreen();
 void textRed();
 void textBlue();
+void sayInvalid();
 
 // ========================
 

@@ -2,17 +2,39 @@
 
 void login()
 {
-    system("cls");
-    logo();
-    hline();
-    nl;
-    printf("\t\tLogged in!\n");
-    hline();
-    printf("\t\tPress 'H' to go home\n");
-    char command = getch();
-    
-    if (command == 'h' || command == 'H')
+    while (1)
     {
-        startScreen();
+        system("cls");
+        logo();
+        hline();
+        nl;
+        printf("\t\tLogged in!\n\n");
+        hline();
+        nl;
+        textGreen();
+        printf("\tBack (<-)");
+
+        char command = getch();
+        
+        if (command == '0')
+        {
+            return;
+        }
+        else if (command == -32)
+        {
+            char command = getch();
+            if (command == 75)
+            {
+                return;
+            }
+            else
+            {
+                sayInvalid();
+            }
+        }
+        else
+        {
+            sayInvalid();
+        }
     }
 }

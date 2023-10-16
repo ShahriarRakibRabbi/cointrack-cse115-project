@@ -69,3 +69,10 @@ void textBlue()
     HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
     SetConsoleTextAttribute(consoleHandle, 3 | 0);
 }
+
+void sayInvalid()
+{
+    textRed();
+    printf("\t\tInvalid key!\n");
+    Sleep(1000);
+}

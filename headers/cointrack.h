@@ -5,7 +5,6 @@
 
 
 // Defines
-
 #define nl printf("\n")
 
 // Standard header files
