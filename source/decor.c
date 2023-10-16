@@ -70,6 +70,12 @@ void textBlue()
     SetConsoleTextAttribute(consoleHandle, 3 | 0);
 }
 
+void textYellow()
+{
+    HANDLE consoleHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(consoleHandle, 6 | 0);
+}
+
 void sayInvalid()
 {
     textRed();
