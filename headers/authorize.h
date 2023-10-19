@@ -3,8 +3,10 @@
 
 // ========================
 
-void login();
 void inputPass(char *pass);
+void login();
+void regUser();
+
 
 // ========================
 

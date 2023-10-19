@@ -23,6 +23,14 @@
 void startScreen();
 void quit();
 
+// Structures
+typedef struct User
+{
+    char name[50];
+    char phone[12];
+    char pin[6];
+} user;
+
 
 // ========= END =========
 

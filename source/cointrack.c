@@ -1,5 +1,6 @@
 #include "../headers/cointrack.h"
 
+
 void startScreen()
 {
     while (1)
@@ -31,7 +32,7 @@ void startScreen()
             login();
             break;
         case '2':
-            login();
+            regUser();
             break;
         case '3':
             login();
