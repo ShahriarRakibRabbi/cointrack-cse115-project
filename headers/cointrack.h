@@ -6,6 +6,7 @@
 
 // Defines
 #define nl printf("\n")
+#define maxUsers 100
 
 // Standard header files
 #include <windows.h>

@@ -41,7 +41,7 @@ void login()
         nl;
         textGreen();
         printf("\tBack (<-)");
-        printf("\tType (Enter)");
+        printf("\tType (0)");
         
         textWhite();
         nl;
@@ -52,7 +52,7 @@ void login()
 
         char command = getch();
         
-        if (command == 13)
+        if (command == '0')
         {
             showCursor();
             textYellow();
@@ -90,7 +90,7 @@ void regUser()
         logo();
         hline();
         nl;
-        user regInfo;
+        user regInfo, readInfo[maxUsers];
         printf("\t\t========== Register ==========\n");
         printf("\t\tName: \n");
         printf("\t\tPhone (11-digit): \n");
@@ -106,23 +106,44 @@ void regUser()
         textWhite();
         nl;
         nl;
-        // printf("\tThe follwing was entered:\n");
-        // printf("\tPhone: %s\n", phone);
-        // printf("\tPIN: %s\n", pin);
 
         FILE *file;
-        file = fopen("database/users.dat", "r");
+        file = fopen("database/users.dat", "rb");
 
         if (file != NULL)
         {
-            fread(&regInfo, sizeof(user), 1, file);
+            // Initialize the array with null characters
+            for (int i = 0; i < maxUsers; i++)
+            {
+                readInfo[i].name[0] = '\0';
+            }
+
+            fread(readInfo, sizeof(user), maxUsers, file);
+
+            for (int i = 0; i < maxUsers; i++)
+            {
+                if (readInfo[i].name[0] == '\0')
+                {
+                    break;
+                }
+                if (readInfo[i].name[strlen(readInfo[i].name) - 1] == '\n')
+                {
+                    readInfo[i].name[strlen(readInfo[i].name) - 1] = '\0';
+                }
+                if (readInfo[i].phone[strlen(readInfo[i].phone) - 1] == '\n')
+                {
+                    readInfo[i].phone[strlen(readInfo[i].phone) - 1] = '\0';
+                }
+                if (readInfo[i].pin[strlen(readInfo[i].pin) - 1] == '\n')
+                {
+                    readInfo[i].pin[strlen(readInfo[i].pin) - 1] = '\0';
+                }
+
+                printf("Name: %s\n", readInfo[i].name);
+                printf("Phone: %s\n", readInfo[i].phone);
+                printf("PIN: %s\n", readInfo[i].pin);
+            }
             
-            if(regInfo.name[strlen(regInfo.name) - 1] == '\n')
-               regInfo.name[strlen(regInfo.name) - 1] = '\0';
-            
-            printf ("Name: %s\n", regInfo.name);
-            printf ("Phone: %s\n", regInfo.phone);
-            printf ("PIN: %s\n", regInfo.pin);
             fclose(file);
         }
         else
@@ -152,7 +173,7 @@ void regUser()
             hideCursor();
 
             FILE *file;
-            file = fopen("database/users.dat", "wb");
+            file = fopen("database/users.dat", "ab");
 
             if (file != NULL)
             {

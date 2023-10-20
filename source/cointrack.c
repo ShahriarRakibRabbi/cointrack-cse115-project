@@ -1,5 +1,6 @@
 #include "../headers/cointrack.h"
 
+int loggedIn = 0;
 
 void startScreen()
 {
