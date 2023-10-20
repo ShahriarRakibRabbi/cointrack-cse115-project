@@ -31,36 +31,72 @@ void login()
         logo();
         hline();
         nl;
-        char phone[256], pin[256];
+        char phone[12], pin[6];
         printf("\t\t========== Login ==========\n");
         printf("\t\tPhone: \n");
         printf("\t\tPIN: \n");
         nl;
-        // scanf("%s", &username);
         hline();
         nl;
         textGreen();
         printf("\tBack (<-)");
-        printf("\tType (0)");
+        printf("\tType (Enter)");
         
         textWhite();
         nl;
         nl;
-        printf("\tThe follwing was entered:\n");
-        printf("\tPhone: %s\n", phone);
-        printf("\tPIN: %s\n", pin);
+        // printf("\tThe follwing was entered:\n");
+        // printf("\tPhone: %s\n", phone);
+        // printf("\tPIN: %s\n", pin);
 
         char command = getch();
         
-        if (command == '0')
+        if (command == 13)
         {
             showCursor();
             textYellow();
+
             moveCursor(23, 8);
             scanf("%s", &phone);
+
             moveCursor(23, 9);
             inputPass(pin);
+
+            FILE *file;
+            file = fopen("database/users.dat", "rb");
+
+            if (file != NULL)
+            {
+                user readInfo[maxUsers];
+                fread(readInfo, sizeof(user), maxUsers, file);
+
+                for (int i = 0; i < maxUsers; i++)
+                {
+                    if (strcmp(readInfo[i].phone, phone) == 0 && strcmp(readInfo[i].pin, pin) == 0)
+                    {
+                        loggedIn = 1;
+                        strcpy(userPhone, phone);
+                        return;
+                    }
+                }
+                if (!loggedIn)
+                {
+                    hideCursor();
+                    moveCursor(0, 14);
+                    textRed();
+                    printf("\n\tInvalid credentials!\n");
+                    Sleep(2000);
+                }
+            }
+            else
+            {
+                printf("Error opening the file.\n");
+            }
+            fclose(file);
+
             hideCursor();
+
+
         }
         else if (command == -32)
         {
