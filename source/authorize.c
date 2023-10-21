@@ -67,8 +67,8 @@ void login()
 
             if (file != NULL)
             {
-                user readInfo[maxUsers];
-                fread(readInfo, sizeof(user), maxUsers, file);
+                User readInfo[maxUsers];
+                fread(readInfo, sizeof(User), maxUsers, file);
 
                 for (int i = 0; i < maxUsers; i++)
                 {
@@ -126,7 +126,7 @@ void regUser()
         logo();
         hline();
         nl;
-        user regInfo, readInfo[maxUsers];
+        User regInfo, readInfo[maxUsers];
         printf("\t\t========== Register ==========\n");
         printf("\t\tName: \n");
         printf("\t\tPhone (11-digit): \n");
@@ -154,7 +154,7 @@ void regUser()
                 readInfo[i].name[0] = '\0';
             }
 
-            fread(readInfo, sizeof(user), maxUsers, file);
+            fread(readInfo, sizeof(User), maxUsers, file);
 
             for (int i = 0; i < maxUsers; i++)
             {
@@ -213,7 +213,7 @@ void regUser()
 
             if (file != NULL)
             {
-                fwrite(&regInfo, sizeof(user), 1, file);
+                fwrite(&regInfo, sizeof(User), 1, file);
                 fclose(file);
             }
             else

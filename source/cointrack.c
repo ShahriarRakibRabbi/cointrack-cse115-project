@@ -7,8 +7,8 @@ void showUsername()
 
     if (file != NULL)
     {
-        user readInfo[maxUsers];
-        fread(readInfo, sizeof(user), maxUsers, file);
+        User readInfo[maxUsers];
+        fread(readInfo, sizeof(User), maxUsers, file);
 
         for (int i = 0; i < maxUsers; i++)
         {
@@ -26,13 +26,21 @@ void showUsername()
     fclose(file);
 }
 
-void quit()
+void quit(int error, char *filename)
 {
     system("cls");
     logo();
     hline();
     nl;
-    printf("\t\tThank you for choosing CoinTrack!\n\n");
+    if (error)
+    {
+        printf("\t\tError: '%s' doesn't exist.\n", filename);
+    }
+    else
+    {
+        printf("\t\tThank you for choosing CoinTrack!\n\n");
+    }
+    nl;
     hline();
     nl;
     textRed();
@@ -69,6 +77,11 @@ void startScreen()
         printf("\tPress (1 - 4)");
         textWhite();
 
+        nl;
+        nl;
+        
+        printf("\tUser Count: %d\n", getUserCount());
+
         char command = getch();
         switch (command)
         {
@@ -82,7 +95,7 @@ void startScreen()
             login();
             break;
         case '4':
-            quit();
+            quit(0, "");
             break;
         default:
             sayInvalid();
@@ -138,7 +151,7 @@ void userHome()
         login();
         break;
     case '4':
-        quit();
+        quit(0, "");
         break;
     default:
         sayInvalid();
