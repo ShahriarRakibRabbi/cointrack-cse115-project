@@ -15,6 +15,7 @@ void textRed();
 void textBlue();
 void textYellow();
 void sayInvalid();
+void stripNewLine(char *str);
 
 // ========================
 

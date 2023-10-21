@@ -10,14 +10,14 @@ void icon()
 void logo()
 {
     textGreen();
-    printf("\t      ____      _     _____               _    \n\t     / ___|___ (_)_ _|_   _| __ __ _  ___| | __\n\t    | |   / _ \\| | '_ \\| || '__/ _` |/ __| |/ /\n\t    | |__| (_) | | | | | || | | (_| | (__|   < \n\t     \\____\\___/|_|_| |_|_||_|  \\__,_|\\___|_|\\_\\\n");
+    printf("\t\t      ____      _     _____               _    \n\t\t     / ___|___ (_)_ _|_   _| __ __ _  ___| | __\n\t\t    | |   / _ \\| | '_ \\| || '__/ _` |/ __| |/ /\n\t\t    | |__| (_) | | | | | || | | (_| | (__|   < \n\t\t     \\____\\___/|_|_| |_|_||_|  \\__,_|\\___|_|\\_\\\n");
     textWhite();
 }
 
 void hline()
 {
     printf("\t");
-    for (int i = 0; i < 52; i++)
+    for (int i = 0; i < 68; i++)
         printf("%c", 220);
     printf("\n");
 }
@@ -81,4 +81,13 @@ void sayInvalid()
     textRed();
     printf("\t\tInvalid key!\n");
     Sleep(1000);
+}
+
+
+void stripNewLine(char *str)
+{
+    if (str[strlen(str) - 1] == '\n')
+    {
+        str[strlen(str) - 1] = '\0';
+    }
 }

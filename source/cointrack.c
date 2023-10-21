@@ -7,10 +7,10 @@ void showUsername()
 
     if (file != NULL)
     {
-        User readInfo[maxUsers];
-        fread(readInfo, sizeof(User), maxUsers, file);
+        User readInfo[userCount];
+        fread(readInfo, sizeof(User), userCount, file);
 
-        for (int i = 0; i < maxUsers; i++)
+        for (int i = 0; i < userCount; i++)
         {
             if (strcmp(readInfo[i].phone, userPhone) == 0)
             {
@@ -38,7 +38,7 @@ void quit(int error, char *filename)
     }
     else
     {
-        printf("\t\tThank you for choosing CoinTrack!\n\n");
+        printf("\t\tThank you for choosing CoinTrack!\n");
     }
     nl;
     hline();
@@ -68,6 +68,7 @@ void startScreen()
         printf("\t\t2  Register\n");
         printf("\t\t3  Admin Login\n");
         printf("\t\t4  Exit\n");
+        printf("\t\t5  Users\n");
         
         nl;
         hline();
@@ -80,7 +81,7 @@ void startScreen()
         nl;
         nl;
         
-        printf("\tUser Count: %d\n", getUserCount());
+        printf("\tUser Count: %d\n", userCount);
 
         char command = getch();
         switch (command)
@@ -96,6 +97,9 @@ void startScreen()
             break;
         case '4':
             quit(0, "");
+            break;
+        case '5':
+            listUsers();
             break;
         default:
             sayInvalid();

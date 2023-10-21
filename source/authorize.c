@@ -61,41 +61,33 @@ void login()
 
             moveCursor(23, 9);
             inputPass(pin);
-
-            FILE *file;
-            file = fopen("database/users.dat", "rb");
-
-            if (file != NULL)
-            {
-                User readInfo[maxUsers];
-                fread(readInfo, sizeof(User), maxUsers, file);
-
-                for (int i = 0; i < maxUsers; i++)
-                {
-                    if (strcmp(readInfo[i].phone, phone) == 0 && strcmp(readInfo[i].pin, pin) == 0)
-                    {
-                        loggedIn = 1;
-                        strcpy(userPhone, phone);
-                        return;
-                    }
-                }
-                if (!loggedIn)
-                {
-                    hideCursor();
-                    moveCursor(0, 14);
-                    textRed();
-                    printf("\n\tInvalid credentials!\n");
-                    Sleep(2000);
-                }
-            }
-            else
-            {
-                printf("Error opening the file.\n");
-            }
-            fclose(file);
-
+            
             hideCursor();
 
+            FILE *file = readFile("users.dat");
+
+            User readInfo[userCount];
+            fread(readInfo, sizeof(User), userCount, file);
+
+            for (int i = 0; i < userCount; i++)
+            {
+                if (strcmp(readInfo[i].phone, phone) == 0 && strcmp(readInfo[i].pin, pin) == 0)
+                {
+                    loggedIn = 1;
+                    strcpy(userPhone, phone);
+                    return;
+                }
+            }
+            if (!loggedIn)
+            {
+                hideCursor();
+                moveCursor(0, 14);
+                textRed();
+                printf("\n\tInvalid credentials!\n");
+                Sleep(2000);
+            }
+            
+            fclose(file);
 
         }
         else if (command == -32)
@@ -126,7 +118,7 @@ void regUser()
         logo();
         hline();
         nl;
-        User regInfo, readInfo[maxUsers];
+        User regInfo, readInfo[userCount];
         printf("\t\t========== Register ==========\n");
         printf("\t\tName: \n");
         printf("\t\tPhone (11-digit): \n");
@@ -142,51 +134,7 @@ void regUser()
         textWhite();
         nl;
         nl;
-
-        FILE *file;
-        file = fopen("database/users.dat", "rb");
-
-        if (file != NULL)
-        {
-            // Initialize the array with null characters
-            for (int i = 0; i < maxUsers; i++)
-            {
-                readInfo[i].name[0] = '\0';
-            }
-
-            fread(readInfo, sizeof(User), maxUsers, file);
-
-            for (int i = 0; i < maxUsers; i++)
-            {
-                if (readInfo[i].name[0] == '\0')
-                {
-                    break;
-                }
-                if (readInfo[i].name[strlen(readInfo[i].name) - 1] == '\n')
-                {
-                    readInfo[i].name[strlen(readInfo[i].name) - 1] = '\0';
-                }
-                if (readInfo[i].phone[strlen(readInfo[i].phone) - 1] == '\n')
-                {
-                    readInfo[i].phone[strlen(readInfo[i].phone) - 1] = '\0';
-                }
-                if (readInfo[i].pin[strlen(readInfo[i].pin) - 1] == '\n')
-                {
-                    readInfo[i].pin[strlen(readInfo[i].pin) - 1] = '\0';
-                }
-
-                printf("Name: %s\n", readInfo[i].name);
-                printf("Phone: %s\n", readInfo[i].phone);
-                printf("PIN: %s\n", readInfo[i].pin);
-            }
-            
-            fclose(file);
-        }
-        else
-        {
-            printf("Error opening the file.\n");
-        }
-
+        
         char command = getch();
         
         if (command == 13)
@@ -208,20 +156,14 @@ void regUser()
 
             hideCursor();
 
-            FILE *file;
-            file = fopen("database/users.dat", "ab");
+            FILE *file = appendFile("users.dat");
 
-            if (file != NULL)
-            {
-                fwrite(&regInfo, sizeof(User), 1, file);
-                fclose(file);
-            }
-            else
-            {
-                printf("Error opening the file.\n");
-            }
+            fwrite(&regInfo, sizeof(User), 1, file);
 
+            userCount++;
+            incrementUserCount();
 
+            fclose(file);
 
         }
         else if (command == -32)

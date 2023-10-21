@@ -6,7 +6,6 @@
 
 // Defines
 #define nl printf("\n")
-#define maxUsers 100
 
 
 // Standard header files
@@ -32,6 +31,7 @@ void adminHome();
 // Structures
 typedef struct
 {
+    int id;
     char name[50];
     char phone[12];
     char pin[6];
@@ -42,6 +42,7 @@ typedef struct
 int loggedIn;
 int adminLoggedIn;
 char userPhone[12];
+int userCount;
 
 
 // ========= END =========
