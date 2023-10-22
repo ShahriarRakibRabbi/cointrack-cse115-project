@@ -5,7 +5,9 @@
 
 void icon();
 void logo();
-void hline();
+void hLine();
+void hLine_thin();
+void title(char *title);
 void hideCursor();
 void showCursor();
 void moveCursor(int x, int y);

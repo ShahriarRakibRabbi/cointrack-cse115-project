@@ -29,14 +29,14 @@ void login()
     {
         system("cls");
         logo();
-        hline();
+        hLine();
         nl;
         char phone[12], pin[6];
         printf("\t\t========== Login ==========\n");
         printf("\t\tPhone: \n");
         printf("\t\tPIN: \n");
         nl;
-        hline();
+        hLine();
         nl;
         textGreen();
         printf("\tBack (<-)");
@@ -56,10 +56,10 @@ void login()
             showCursor();
             textYellow();
 
-            moveCursor(23, 8);
+            moveCursor(23, 9);
             scanf("%s", &phone);
 
-            moveCursor(23, 9);
+            moveCursor(23, 10);
             inputPass(pin);
             
             hideCursor();
@@ -74,7 +74,7 @@ void login()
                 if (strcmp(readInfo[i].phone, phone) == 0 && strcmp(readInfo[i].pin, pin) == 0)
                 {
                     loggedIn = 1;
-                    strcpy(userPhone, phone);
+                    curUserId = readInfo[i].id;
                     return;
                 }
             }
@@ -116,7 +116,7 @@ void regUser()
     {
         system("cls");
         logo();
-        hline();
+        hLine();
         nl;
         User regInfo, readInfo[userCount];
         printf("\t\t========== Register ==========\n");
@@ -125,7 +125,7 @@ void regUser()
         printf("\t\tPIN (5-digit): \n");
         nl;
         // scanf("%s", &username);
-        hline();
+        hLine();
         nl;
         textGreen();
         printf("\tBack (<-)");
@@ -142,15 +142,17 @@ void regUser()
             showCursor();
             textYellow();
 
-            moveCursor(36, 8);
-            fflush(stdin);
-            fgets(regInfo.name, 50, stdin);
+            regInfo.id = userCount + 1;
 
             moveCursor(36, 9);
             fflush(stdin);
-            fgets(regInfo.phone, 12, stdin);
+            fgets(regInfo.name, 50, stdin);
 
             moveCursor(36, 10);
+            fflush(stdin);
+            fgets(regInfo.phone, 12, stdin);
+
+            moveCursor(36, 11);
             fflush(stdin);
             inputPass(regInfo.pin);
 

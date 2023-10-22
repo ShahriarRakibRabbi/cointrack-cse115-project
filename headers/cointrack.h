@@ -12,6 +12,7 @@
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include <conio.h>
 #include <stdio.h>
 
@@ -41,7 +42,7 @@ typedef struct
 // Global variables
 int loggedIn;
 int adminLoggedIn;
-char userPhone[12];
+char curUserId;
 int userCount;
 
 

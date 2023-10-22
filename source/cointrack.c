@@ -1,36 +1,11 @@
 #include "../headers/cointrack.h"
 
-void showUsername()
-{
-    FILE *file;
-    file = fopen("database/users.dat", "rb");
-
-    if (file != NULL)
-    {
-        User readInfo[userCount];
-        fread(readInfo, sizeof(User), userCount, file);
-
-        for (int i = 0; i < userCount; i++)
-        {
-            if (strcmp(readInfo[i].phone, userPhone) == 0)
-            {
-                puts(readInfo[i].name);
-                return;
-            }
-        }
-    }
-    else
-    {
-        printf("Error opening the file.\n");
-    }
-    fclose(file);
-}
 
 void quit(int error, char *filename)
 {
     system("cls");
     logo();
-    hline();
+    hLine();
     nl;
     if (error)
     {
@@ -41,12 +16,12 @@ void quit(int error, char *filename)
         printf("\t\tThank you for choosing CoinTrack!\n");
     }
     nl;
-    hline();
+    hLine();
     nl;
     textRed();
     for (int i = 5; i > 0; i--)
     {
-        moveCursor(0, 11);
+        moveCursor(0, 12);
         printf("\t\tClosing in %d seconds...\n", i);
         Sleep(1000);
     }
@@ -58,12 +33,13 @@ void startScreen()
     while (1)
     {
         system("cls");
-        hideCursor();
 
         logo();
-        hline();
+        hLine();
         nl;
         
+        // title("CoinTrack");
+
         printf("\t\t1  Login\n");
         printf("\t\t2  Register\n");
         printf("\t\t3  Admin Login\n");
@@ -71,7 +47,7 @@ void startScreen()
         printf("\t\t5  Users\n");
         
         nl;
-        hline();
+        hLine();
         nl;
         
         textGreen();
@@ -82,6 +58,7 @@ void startScreen()
         nl;
         
         printf("\tUser Count: %d\n", userCount);
+        hideCursor();
 
         char command = getch();
         switch (command)
@@ -118,7 +95,7 @@ void userHome()
     hideCursor();
 
     logo();
-    hline();
+    hLine();
     nl;
 
     textYellow();
@@ -135,7 +112,7 @@ void userHome()
     printf("\t\t7  Settings\n");
     
     nl;
-    hline();
+    hLine();
     nl;
     
     textGreen();

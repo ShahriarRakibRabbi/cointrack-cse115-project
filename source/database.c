@@ -92,6 +92,25 @@ void decrementUserCount()
     fclose(file);
 }
 
+
+void showUsername()
+{
+    FILE *file = readFile("users.dat");
+
+    User readInfo[userCount];
+    fread(readInfo, sizeof(User), userCount, file);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (readInfo[i].id == curUserId)
+        {
+            puts(readInfo[i].name);
+            return;
+        }
+    }
+    fclose(file);
+}
+
 void listUsers()
 {
     while (1)
@@ -100,7 +119,7 @@ void listUsers()
         hideCursor();
 
         logo();
-        hline();
+        hLine();
         nl;
 
         if (userCount > 0)
@@ -108,20 +127,68 @@ void listUsers()
 
             FILE *file = readFile("users.dat");
 
-            printf("\t\t%s\t\t\t%s\t\t\t%s\n", "NAME", "PHONE", "PIN");
+            textYellow();
+            printf("\t\t%s\t%s\t\t\t\t%s", "ID", "NAME", "PHONE");
+            textWhite();
 
             User readInfo[userCount];
             fread(readInfo, sizeof(User), userCount, file);
 
             for (int i = 0; i < userCount; i++)
             {
+                nl;
+                hLine_thin();
+
                 stripNewLine(readInfo[i].name);
                 stripNewLine(readInfo[i].phone);
-                stripNewLine(readInfo[i].pin);
 
-                printf("\t\t%s\t\t%s\t\t%s", readInfo[i].name, readInfo[i].phone, readInfo[i].pin);
+                int nameLen = strlen(readInfo[i].name);
+                int maxLen = 22;
+                int lines = ceil((float) nameLen / maxLen);
+                int center = ((int) ceil(lines / 2.0)) * maxLen;
+                int extra = maxLen - nameLen;
+                // printf("Center: %d", ((int) ceil(lines / 2.0)) * maxLen);
+
+                if (nameLen <= maxLen || center-maxLen == 0)
+                {
+                    printf("\t\t%d\t", readInfo[i].id);
+                }
+                else
+                {
+                    printf("\t\t\t");
+                }
+
+                for (int j = 0; j < nameLen; j++)
+                {
+                    printf("%c", readInfo[i].name[j]);
+
+                    
+                    if (j+1 == center)
+                    {
+                        printf("\t\t%s", readInfo[i].phone);
+                    }
+                    if ((j+1) % maxLen == 0 && j != nameLen-1)
+                    {
+                        nl;
+                        if (nameLen > maxLen && j+1 == center-maxLen)
+                        {
+                            printf("\t\t%d\t", readInfo[i].id);
+                        }
+                        else
+                        {
+                            printf("\t\t\t");
+                        }
+                    }
+                }
+                if (nameLen < maxLen)
+                {
+                    while (extra--)
+                    {
+                        printf(" ");
+                    }
+                    printf("\t\t%s", readInfo[i].phone);
+                }
             }
-            
             fclose(file);
         }
         else
@@ -130,7 +197,7 @@ void listUsers()
         }
         
         nl;
-        hline();
+        hLine();
         nl;
         
         textGreen();

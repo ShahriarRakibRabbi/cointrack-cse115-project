@@ -10,6 +10,7 @@ int getUserCount();
 int setUserCount(int count);
 void incrementUserCount();
 void decrementUserCount();
+void showUsername();
 void listUsers();
 
 // ========= END =========

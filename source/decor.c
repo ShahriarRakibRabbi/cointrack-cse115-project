@@ -12,15 +12,38 @@ void logo()
     textGreen();
     printf("\t\t      ____      _     _____               _    \n\t\t     / ___|___ (_)_ _|_   _| __ __ _  ___| | __\n\t\t    | |   / _ \\| | '_ \\| || '__/ _` |/ __| |/ /\n\t\t    | |__| (_) | | | | | || | | (_| | (__|   < \n\t\t     \\____\\___/|_|_| |_|_||_|  \\__,_|\\___|_|\\_\\\n");
     textWhite();
+    nl;
 }
 
-void hline()
+void hLine()
 {
     printf("\t");
     for (int i = 0; i < 68; i++)
         printf("%c", 220);
     printf("\n");
 }
+
+void hLine_thin()
+{
+    printf("\t");
+    for (int i = 0; i < 68; i++)
+        printf("%c", 205);
+    printf("\n");
+}
+
+// void title(char *title)
+// {
+//     // int length = strlen(title);
+//     // for (int i = 0; i < length+6; i++)
+//     // {
+//     //     printf("%c", 178);
+//     // }
+//     printf("%c  %s  %c", 178, title, 178);
+//     // for (int i = 0; i < length+6; i++)
+//     // {
+//     //     printf("%c", 178);
+//     // }
+// }
 
 void hideCursor()
 {
