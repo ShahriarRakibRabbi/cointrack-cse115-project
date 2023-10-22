@@ -37,8 +37,6 @@ void startScreen()
         logo();
         hLine();
         nl;
-        
-        // title("CoinTrack");
 
         printf("\t\t1  Login\n");
         printf("\t\t2  Register\n");

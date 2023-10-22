@@ -122,6 +122,9 @@ void listUsers()
         hLine();
         nl;
 
+        title("USERS");
+        nl;
+
         if (userCount > 0)
         {
 
@@ -147,8 +150,7 @@ void listUsers()
                 int lines = ceil((float) nameLen / maxLen);
                 int center = ((int) ceil(lines / 2.0)) * maxLen;
                 int extra = maxLen - nameLen;
-                // printf("Center: %d", ((int) ceil(lines / 2.0)) * maxLen);
-
+                
                 if (nameLen <= maxLen || center-maxLen == 0)
                 {
                     printf("\t\t%d\t", readInfo[i].id);

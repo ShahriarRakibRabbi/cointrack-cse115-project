@@ -6,6 +6,7 @@
 
 // Defines
 #define nl printf("\n")
+#define tab printf("\t")
 
 
 // Standard header files

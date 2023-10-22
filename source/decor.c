@@ -17,7 +17,7 @@ void logo()
 
 void hLine()
 {
-    printf("\t");
+    tab;
     for (int i = 0; i < 68; i++)
         printf("%c", 220);
     printf("\n");
@@ -25,25 +25,32 @@ void hLine()
 
 void hLine_thin()
 {
-    printf("\t");
+    tab;
     for (int i = 0; i < 68; i++)
         printf("%c", 205);
     printf("\n");
 }
 
-// void title(char *title)
-// {
-//     // int length = strlen(title);
-//     // for (int i = 0; i < length+6; i++)
-//     // {
-//     //     printf("%c", 178);
-//     // }
-//     printf("%c  %s  %c", 178, title, 178);
-//     // for (int i = 0; i < length+6; i++)
-//     // {
-//     //     printf("%c", 178);
-//     // }
-// }
+void title(char *title)
+{
+    tab;
+    int length = strlen(title) + 4;
+    int bars = (68 - length) / 2;
+    for (int i = 0; i < bars; i++)
+    {
+        printf("%c", 178);
+    }
+    printf("  %s  ", title);
+    for (int i = 0; i < bars; i++)
+    {
+        printf("%c", 178);
+    }
+    if (length & 1)
+    {
+        printf("%c", 178);
+    }
+    nl;
+}
 
 void hideCursor()
 {
