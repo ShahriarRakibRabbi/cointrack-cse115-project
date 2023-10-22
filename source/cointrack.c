@@ -7,6 +7,8 @@ void quit(int error, char *filename)
     logo();
     hLine();
     nl;
+    title("GOODBYE");
+    nl;
     if (error)
     {
         printf("\t\tError: '%s' doesn't exist.\n", filename);
@@ -19,10 +21,15 @@ void quit(int error, char *filename)
     hLine();
     nl;
     textRed();
-    for (int i = 5; i > 0; i--)
+    for (int i = 6; i > 0; i--)
     {
-        moveCursor(0, 12);
-        printf("\t\tClosing in %d seconds...\n", i);
+        moveCursor(0, 14);
+        printf("\tClosing in %d seconds", i);
+        for (int j = 2; j < 6-i; j++)
+        {
+            printf(".");
+        }
+        nl;
         Sleep(1000);
     }
     exit(0);
@@ -38,51 +45,40 @@ void startScreen()
         hLine();
         nl;
 
-        printf("\t\t1  Login\n");
-        printf("\t\t2  Register\n");
-        printf("\t\t3  Admin Login\n");
-        printf("\t\t4  Exit\n");
-        printf("\t\t5  Users\n");
-        
+        title("WELCOME");
+        nl;
+
+        command("\t\t1  ");
+        printf("Login\n");
+        command("\t\t2  ");
+        printf("Register\n");
+        command("\t\t3  ");
+        printf("Admin Login\n");
+        command("\t\t4  ");
+        printf("Exit\n");
+
         nl;
         hLine();
         nl;
-        
-        textGreen();
-        printf("\tPress (1 - 4)");
-        textWhite();
-
-        nl;
-        nl;
-        
-        printf("\tUser Count: %d\n", userCount);
-        hideCursor();
 
         char command = getch();
         switch (command)
         {
         case '1':
             login();
-            break;
+            return;
         case '2':
             regUser();
             break;
         case '3':
-            login();
-            break;
+            adminLogin();
+            return;
         case '4':
             quit(0, "");
-            break;
-        case '5':
-            listUsers();
             break;
         default:
             alert("Invalid key!", 1);
             break;
-        }
-        if (loggedIn)
-        {
-            return;
         }
     }
 }
@@ -96,26 +92,37 @@ void userHome()
     hLine();
     nl;
 
-    textYellow();
-    printf("\t\tWelcome, ");
-    showUsername();
-    textWhite();
+    title("DASHBOARD");
+    nl;
 
-    printf("\t\t1  Expense Tracker\n");
-    printf("\t\t2  Pay Bill\n");
-    printf("\t\t3  Wallet\n");
-    printf("\t\t4  Calculator\n");
-    printf("\t\t5  Notepad\n");
-    printf("\t\t6  Calendar\n");
-    printf("\t\t7  Settings\n");
+    tab;
+    textYellow();
+    showUsername(1);
+    textWhite();
+    nl;
+
+    command("\t\t1  ");
+    printf("Expense Tracker\n");
+    command("\t\t2  ");
+    printf("Pay Bill\n");
+    command("\t\t3  ");
+    printf("Wallet\n");
+    command("\t\t4  ");
+    printf("Calculator\n");
+    command("\t\t5  ");
+    printf("Notepad\n");
+    command("\t\t6  ");
+    printf("Calendar\n");
+    command("\t\t7  ");
+    printf("Settings\n");
+    command("\t\t8  ");
+    printf("Logout\n");
+
     
     nl;
     hLine();
     nl;
     
-    textGreen();
-    printf("\tPress (1 - 4)");
-    textWhite();
 
     char command = getch();
     switch (command)
@@ -132,6 +139,9 @@ void userHome()
     case '4':
         quit(0, "");
         break;
+    case '8':
+        logout();
+        return;
     default:
         alert("Invalid key!", 1);
         break;
@@ -140,5 +150,58 @@ void userHome()
 
 void adminHome()
 {
-    // nothing
+    system("cls");
+    hideCursor();
+
+    logo();
+    hLine();
+    nl;
+
+    title("ADMIN DASHBOARD");
+    nl;
+
+    tab;
+    textYellow();
+    showUsername(2);
+    textWhite();
+
+    int x = 63 - log10(userCount);
+    moveCursor(x, 10);
+    textYellow();
+    printf("Total Users: %d\n", userCount);
+    textWhite();
+    nl;
+
+    command("\t\t1  ");
+    printf("Users\n");
+    command("\t\t2  ");
+    printf("Add Admin\n");
+    command("\t\t3  ");
+    printf("Settings\n");
+    command("\t\t4  ");
+    printf("Logout\n");
+
+    
+    nl;
+    hLine();
+    nl;
+    
+
+    char command = getch();
+    switch (command)
+    {
+    case '1':
+        listUsers();
+        break;
+    case '2':
+        break;
+    case '3':
+        break;
+    case '4':
+        logout();
+        return;
+    default:
+        alert("Invalid key!", 1);
+        break;
+    }
 }

@@ -7,10 +7,15 @@ FILE *readFile(char *filename);
 FILE *writeFile(char *filename);
 FILE *appendFile(char *filename);
 int getUserCount();
-int setUserCount(int count);
+void setUserCount(int count);
 void incrementUserCount();
 void decrementUserCount();
-void showUsername();
+void seedAdmin();
+int getAdminCount();
+void setAdminCount(int count);
+void incrementAdminCount();
+void decrementAdminCount();
+void showUsername(int type);
 void listUsers();
 
 // ========= END =========

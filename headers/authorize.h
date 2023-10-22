@@ -4,8 +4,10 @@
 // ========================
 
 void inputPass(char *pass);
-void login();
 void regUser();
+void login();
+void adminLogin();
+void logout();
 
 
 // ========================

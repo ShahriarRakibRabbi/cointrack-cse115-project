@@ -23,6 +23,104 @@ void inputPass(char *pass)
     pass[i] = '\0';
 }
 
+void regUser()
+{
+    while (1)
+    {
+        system("cls");
+        logo();
+        hLine();
+        nl;
+
+        title("REGISTER");
+        nl;
+
+        User regInfo, readInfo[userCount];
+        printf("\t\tYour Name: \n");
+        printf("\t\tPhone Number: \n");
+        printf("\t\t5-digit PIN: \n");
+        nl;
+        // scanf("%s", &username);
+        hLine();
+        nl;
+
+        command("\t   <-  ");
+        printf("Back");
+        nl;
+        command("\tENTER  ");
+        printf("Type");
+
+
+        char command = getch();
+        
+        if (command == 13)
+        {
+            showCursor();
+            textYellow();
+
+            regInfo.id = userCount + 1;
+
+            moveCursor(30, 10);
+            fflush(stdin);
+            fgets(regInfo.name, 50, stdin);
+
+            moveCursor(30, 11);
+            fflush(stdin);
+            fgets(regInfo.phone, 14, stdin);
+            
+            moveCursor(30, 12);
+            fflush(stdin);
+            inputPass(regInfo.pin);
+
+            hideCursor();
+            
+            if (strlen(regInfo.name) < 2)
+            {
+                alert("\n\t\tName can't be blank!", 2);
+                continue;
+            }
+
+            if (strlen(regInfo.phone) != 12)
+            {
+                alert("\n\t\tPhone number must have 11 digits!", 2);
+                continue;
+            }
+
+            if (strlen(regInfo.pin) != 5)
+            {
+                alert("\n\t\tPIN must have 5 digits!", 2);
+                continue;
+            }
+
+            FILE *file = appendFile("users.dat");
+
+            fwrite(&regInfo, sizeof(User), 1, file);
+
+            userCount++;
+            incrementUserCount();
+
+            fclose(file);
+
+        }
+        else if (command == -32)
+        {
+            char command = getch();
+            if (command == 75)
+            {
+                return;
+            }
+            else
+            {
+                alert("Invalid key!", 1);
+            }
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+}
+
 void login()
 {
     while (1)
@@ -40,13 +138,13 @@ void login()
         nl;
         hLine();
         nl;
-        textGreen();
-        printf("\tBack (<-)");
-        printf("\tType (Enter)");
-        
-        textWhite();
+
+        command("\t   <-  ");
+        printf("Back");
         nl;
-        nl;
+        command("\tENTER  ");
+        printf("Type");
+
 
         char command = getch();
         
@@ -80,8 +178,89 @@ void login()
             if (!loggedIn)
             {
                 hideCursor();
-                moveCursor(0, 14);
-                alert("\tInvalid credentials!", 2);
+                alert("\n\t\tInvalid credentials!", 2);
+            }
+            
+            fclose(file);
+
+        }
+        else if (command == -32)
+        {
+            char command = getch();
+            if (command == 75)
+            {
+                return;
+            }
+            else
+            {
+                alert("Invalid key!", 1);
+            }
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+}
+
+void adminLogin()
+{
+    while (1)
+    {
+        system("cls");
+        logo();
+        hLine();
+        nl;
+        title("ADMIN LOGIN");
+        nl;
+
+        char email[100], password[100];
+        printf("\t\tEmail: \n");
+        printf("\t\tPassword: \n");
+        nl;
+        hLine();
+        nl;
+
+        command("\t   <-  ");
+        printf("Back");
+        nl;
+        command("\tENTER  ");
+        printf("Type");
+
+
+        char command = getch();
+        
+        if (command == 13)
+        {
+            showCursor();
+            textYellow();
+
+            moveCursor(26, 10);
+            scanf("%s", &email);
+
+            moveCursor(26, 11);
+            inputPass(password);
+            
+            hideCursor();
+
+            FILE *file = readFile("admins.dat");
+
+            Admin readInfo[adminCount];
+            fread(readInfo, sizeof(Admin), adminCount, file);
+
+            for (int i = 0; i < adminCount; i++)
+            {
+                if (strcmp(readInfo[i].email, email) == 0 && strcmp(readInfo[i].password, password) == 0)
+                {
+                    adminLoggedIn = 1;
+                    curUserId = readInfo[i].id;
+                    return;
+                }
+            }
+            if (!adminLoggedIn)
+            {
+                hideCursor();
+                alert("\n\t\tInvalid credentials!", 2);
             }
             
             fclose(file);
@@ -107,7 +286,7 @@ void login()
 }
 
 
-void regUser()
+void logout()
 {
     while (1)
     {
@@ -115,89 +294,44 @@ void regUser()
         logo();
         hLine();
         nl;
-
-        title("REGISTER");
+        title("CONFIRMATION");
         nl;
+        
+        textYellow();
+        printf("\t\tAre you sure you want to logout?\n");
+        textWhite();
 
-        User regInfo, readInfo[userCount];
-        printf("\t\tFull Name: \n");
-        printf("\t\tPhone Number: \n");
-        printf("\t\t5-digit PIN: \n");
         nl;
-        // scanf("%s", &username);
         hLine();
         nl;
-        textGreen();
-        printf("\tBack (<-)");
-        printf("\tType (Enter)");
-        
-        textWhite();
+
+        command("\tENTER  ");
+        printf("Yes");
         nl;
-        nl;
-        
+        command("\t   <-  ");
+        printf("No");
+
         char command = getch();
-        
-        if (command == 13)
+
+        switch (command)
         {
-            showCursor();
-            textYellow();
-
-            regInfo.id = userCount + 1;
-
-            moveCursor(30, 10);
-            fflush(stdin);
-            fgets(regInfo.name, 50, stdin);
-
-            if (strlen(regInfo.name) < 2)
-            {
-                hideCursor();
-                moveCursor(0, 16);
-                alert("Name can't be blank!", 2);
-                continue;
-            }
-
-            moveCursor(30, 11);
-            fflush(stdin);
-            fgets(regInfo.phone, 14, stdin);
-            
-            if (strlen(regInfo.phone) != 12)
-            {
-                hideCursor();
-                moveCursor(0, 16);
-                alert("Phone number must have 11 digits!", 2);
-                continue;
-            }
-
-            moveCursor(30, 12);
-            fflush(stdin);
-            inputPass(regInfo.pin);
-            printf("%d", strlen(regInfo.pin));
-
-            if (strlen(regInfo.pin) != 5)
-            {
-                hideCursor();
-                moveCursor(0, 17);
-                alert("PIN must have 5 digits!", 2);
-                continue;
-            }
-            
-
-            hideCursor();
-            
-
-            FILE *file = appendFile("users.dat");
-
-            fwrite(&regInfo, sizeof(User), 1, file);
-
-            userCount++;
-            incrementUserCount();
-
-            fclose(file);
-
-        }
-        else if (command == -32)
-        {
-            char command = getch();
+        case 13:
+            loggedIn = 0;
+            adminLoggedIn = 0;
+            curUserId = 0;
+            system("cls");
+            logo();
+            hLine();
+            nl;
+            textGreen();
+            printf("\t\tLogged out!", 0);
+            textWhite();
+            nl;
+            hLine();
+            Sleep(1000);
+            return;
+        case -32:
+            command = getch();
             if (command == 75)
             {
                 return;
@@ -206,10 +340,14 @@ void regUser()
             {
                 alert("Invalid key!", 1);
             }
-        }
-        else
-        {
+            return;
+        default:
             alert("Invalid key!", 1);
+            break;
         }
+
+        nl;
+        nl;
     }
+
 }

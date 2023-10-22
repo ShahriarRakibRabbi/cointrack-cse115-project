@@ -114,6 +114,13 @@ void alert(char *message, int time)
     Sleep(wait);
 }
 
+void command(char *command)
+{
+    textGreen();
+    printf("%s", command);
+    textWhite();
+}
+
 
 void stripNewLine(char *str)
 {

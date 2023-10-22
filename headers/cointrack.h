@@ -35,16 +35,25 @@ typedef struct
 {
     int id;
     char name[50];
-    char phone[12];
-    char pin[6];
+    char phone[13];
+    char pin[7];
 } User;
+
+typedef struct
+{
+    int id;
+    char name[50];
+    char email[100];
+    char password[100];
+} Admin;
 
 
 // Global variables
 int loggedIn;
 int adminLoggedIn;
-char curUserId;
+int curUserId;
 int userCount;
+int adminCount;
 
 
 // ========= END =========

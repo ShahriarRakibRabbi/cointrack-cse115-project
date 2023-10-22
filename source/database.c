@@ -51,15 +51,13 @@ int getUserCount()
     return count;
 }
 
-int setUserCount(int count)
+void setUserCount(int count)
 {
     FILE *file = writeFile("userCount.dat");
 
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
-
-    return count;
 }
 
 void incrementUserCount()
@@ -92,23 +90,105 @@ void decrementUserCount()
     fclose(file);
 }
 
-
-void showUsername()
+void seedAdmin()
 {
-    FILE *file = readFile("users.dat");
+    FILE *file = writeFile("admins.dat");
 
-    User readInfo[userCount];
-    fread(readInfo, sizeof(User), userCount, file);
+    Admin admin;
+    admin.id = 1;
+    strcpy(admin.name, "Shafin Rahman");
+    strcpy(admin.email, "asdf");
+    strcpy(admin.password, "asdf");
 
-    for (int i = 0; i < userCount; i++)
-    {
-        if (readInfo[i].id == curUserId)
-        {
-            puts(readInfo[i].name);
-            return;
-        }
-    }
+    fwrite(&admin, sizeof(Admin), 1, file);
+
     fclose(file);
+}
+
+int getAdminCount()
+{
+    FILE *file = readFile("adminCount.dat");
+
+    int count;
+    fread(&count, sizeof(int), 1, file);
+
+    fclose(file);
+
+    return count;
+}
+
+void setAdminCount(int count)
+{
+    FILE *file = writeFile("adminCount.dat");
+
+    fwrite(&count, sizeof(int), 1, file);
+
+    fclose(file);
+}
+
+void incrementAdminCount()
+{
+    FILE *file = readFile("adminCount.dat");
+
+    int count;
+    fread(&count, sizeof(int), 1, file);
+
+    count++;
+
+    fseek(file, 0, SEEK_SET);
+    fwrite(&count, sizeof(int), 1, file);
+
+    fclose(file);
+}
+
+void decrementAdminCount()
+{
+    FILE *file = readFile("adminCount.dat");
+
+    int count;
+    fread(&count, sizeof(int), 1, file);
+
+    count--;
+
+    fseek(file, 0, SEEK_SET);
+    fwrite(&count, sizeof(int), 1, file);
+
+    fclose(file);
+}
+
+void showUsername(int type)
+{
+    if (type == 1)
+    {
+        FILE *file = readFile("users.dat");
+        User readInfo[userCount];
+        fread(readInfo, sizeof(User), userCount, file);
+        for (int i = 0; i < userCount; i++)
+        {
+            if (readInfo[i].id == curUserId)
+            {
+                puts(readInfo[i].name);
+                return;
+            }
+        }
+        fclose(file);
+    }
+    else if (type == 2)
+    {
+        FILE *file = readFile("admins.dat");
+        Admin readInfo[adminCount];
+        fread(readInfo, sizeof(Admin), adminCount, file);
+        for (int i = 0; i < adminCount; i++)
+        {
+            if (readInfo[i].id == curUserId)
+            {
+                puts(readInfo[i].name);
+                return;
+            }
+        }
+        fclose(file);
+    }
+    
 }
 
 void listUsers()
