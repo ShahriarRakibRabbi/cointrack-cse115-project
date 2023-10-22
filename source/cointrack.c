@@ -11,11 +11,11 @@ void quit(int error, char *filename)
     nl;
     if (error)
     {
-        printf("\t\tError: '%s' doesn't exist.\n", filename);
+        printf("\tError: '%s' doesn't exist.\n", filename);
     }
     else
     {
-        printf("\t\tThank you for choosing CoinTrack!\n");
+        printf("\tThank you for choosing CoinTrack!\n");
     }
     nl;
     hLine();
@@ -165,7 +165,7 @@ void adminHome()
     showUsername(2);
     textWhite();
 
-    int x = 63 - log10(userCount);
+    int x = 63 - log10(userCount ? userCount : 2);
     moveCursor(x, 10);
     textYellow();
     printf("Total Users: %d\n", userCount);
@@ -175,10 +175,12 @@ void adminHome()
     command("\t\t1  ");
     printf("Users\n");
     command("\t\t2  ");
-    printf("Add Admin\n");
+    printf("Admins\n");
     command("\t\t3  ");
-    printf("Settings\n");
+    printf("Add Admin\n");
     command("\t\t4  ");
+    printf("Settings\n");
+    command("\t\t5  ");
     printf("Logout\n");
 
     
@@ -198,6 +200,8 @@ void adminHome()
     case '3':
         break;
     case '4':
+        break;
+    case '5':
         logout();
         return;
     default:

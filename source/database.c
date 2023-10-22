@@ -58,6 +58,8 @@ void setUserCount(int count)
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+
+    userCount = count;
 }
 
 void incrementUserCount()
@@ -88,6 +90,44 @@ void decrementUserCount()
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+}
+
+void deleteUser(int id)
+{
+    FILE *file = readFile("users.dat");
+
+    User readInfo[userCount];
+    fread(readInfo, sizeof(User), userCount, file);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (readInfo[i].id == id)
+        {
+            for (int j = i; j < userCount-1; j++)
+            {
+                readInfo[j] = readInfo[j+1];
+            }
+            break;
+        }
+    }
+
+    fclose(file);
+
+    file = writeFile("users.dat");
+
+    fwrite(readInfo, sizeof(User), userCount-1, file);
+
+    fclose(file);
+
+    decrementUserCount();
+}
+
+void deleteAllUsers()
+{
+    FILE *file = writeFile("users.dat");
+    fclose(file);
+
+    setUserCount(0);
 }
 
 void seedAdmin()
@@ -124,6 +164,8 @@ void setAdminCount(int count)
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+
+    adminCount = count;
 }
 
 void incrementAdminCount()
@@ -282,9 +324,11 @@ void listUsers()
         hLine();
         nl;
         
-        textGreen();
-        printf("\tBack (<-)");
-        textWhite();
+        command("\t<-  ");
+        printf("Back");
+        nl;
+        command("\t 0  ");
+        printf("Delete users");
         
         char command = getch();
 
@@ -298,6 +342,24 @@ void listUsers()
             else
             {
                 alert("Invalid key!", 1);
+            }
+        }
+        else if (command == '0')
+        {
+            nl;
+            nl;
+            showCursor();
+            printf("\tEnter user ID: ");
+            int id;
+            textYellow();
+            scanf("%d", &id);
+            if (id == -1)
+            {
+                deleteAllUsers();
+            }
+            else
+            {
+                deleteUser(id);
             }
         }
         else

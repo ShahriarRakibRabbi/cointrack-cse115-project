@@ -298,7 +298,7 @@ void logout()
         nl;
         
         textYellow();
-        printf("\t\tAre you sure you want to logout?\n");
+        printf("\tAre you sure you want to logout?\n");
         textWhite();
 
         nl;
@@ -323,8 +323,8 @@ void logout()
             logo();
             hLine();
             nl;
-            textGreen();
-            printf("\t\tLogged out!", 0);
+            textYellow();
+            printf("\tLogged out!", 0);
             textWhite();
             nl;
             hLine();
