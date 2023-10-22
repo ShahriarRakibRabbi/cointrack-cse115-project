@@ -77,7 +77,7 @@ void startScreen()
             listUsers();
             break;
         default:
-            sayInvalid();
+            alert("Invalid key!", 1);
             break;
         }
         if (loggedIn)
@@ -133,7 +133,7 @@ void userHome()
         quit(0, "");
         break;
     default:
-        sayInvalid();
+        alert("Invalid key!", 1);
         break;
     }
 }

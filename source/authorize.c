@@ -31,8 +31,10 @@ void login()
         logo();
         hLine();
         nl;
+        title("LOGIN");
+        nl;
+
         char phone[12], pin[6];
-        printf("\t\t========== Login ==========\n");
         printf("\t\tPhone: \n");
         printf("\t\tPIN: \n");
         nl;
@@ -45,9 +47,6 @@ void login()
         textWhite();
         nl;
         nl;
-        // printf("\tThe follwing was entered:\n");
-        // printf("\tPhone: %s\n", phone);
-        // printf("\tPIN: %s\n", pin);
 
         char command = getch();
         
@@ -56,10 +55,10 @@ void login()
             showCursor();
             textYellow();
 
-            moveCursor(23, 9);
+            moveCursor(23, 10);
             scanf("%s", &phone);
 
-            moveCursor(23, 10);
+            moveCursor(23, 11);
             inputPass(pin);
             
             hideCursor();
@@ -82,9 +81,7 @@ void login()
             {
                 hideCursor();
                 moveCursor(0, 14);
-                textRed();
-                printf("\n\tInvalid credentials!\n");
-                Sleep(2000);
+                alert("\tInvalid credentials!", 2);
             }
             
             fclose(file);
@@ -99,12 +96,12 @@ void login()
             }
             else
             {
-                sayInvalid();
+                alert("Invalid key!", 1);
             }
         }
         else
         {
-            sayInvalid();
+            alert("Invalid key!", 1);
         }
     }
 }
@@ -118,11 +115,14 @@ void regUser()
         logo();
         hLine();
         nl;
+
+        title("REGISTER");
+        nl;
+
         User regInfo, readInfo[userCount];
-        printf("\t\t========== Register ==========\n");
-        printf("\t\tName: \n");
-        printf("\t\tPhone (11-digit): \n");
-        printf("\t\tPIN (5-digit): \n");
+        printf("\t\tFull Name: \n");
+        printf("\t\tPhone Number: \n");
+        printf("\t\t5-digit PIN: \n");
         nl;
         // scanf("%s", &username);
         hLine();
@@ -144,19 +144,46 @@ void regUser()
 
             regInfo.id = userCount + 1;
 
-            moveCursor(36, 9);
+            moveCursor(30, 10);
             fflush(stdin);
             fgets(regInfo.name, 50, stdin);
 
-            moveCursor(36, 10);
-            fflush(stdin);
-            fgets(regInfo.phone, 12, stdin);
+            if (strlen(regInfo.name) < 2)
+            {
+                hideCursor();
+                moveCursor(0, 16);
+                alert("Name can't be blank!", 2);
+                continue;
+            }
 
-            moveCursor(36, 11);
+            moveCursor(30, 11);
+            fflush(stdin);
+            fgets(regInfo.phone, 14, stdin);
+            
+            if (strlen(regInfo.phone) != 12)
+            {
+                hideCursor();
+                moveCursor(0, 16);
+                alert("Phone number must have 11 digits!", 2);
+                continue;
+            }
+
+            moveCursor(30, 12);
             fflush(stdin);
             inputPass(regInfo.pin);
+            printf("%d", strlen(regInfo.pin));
+
+            if (strlen(regInfo.pin) != 5)
+            {
+                hideCursor();
+                moveCursor(0, 17);
+                alert("PIN must have 5 digits!", 2);
+                continue;
+            }
+            
 
             hideCursor();
+            
 
             FILE *file = appendFile("users.dat");
 
@@ -177,12 +204,12 @@ void regUser()
             }
             else
             {
-                sayInvalid();
+                alert("Invalid key!", 1);
             }
         }
         else
         {
-            sayInvalid();
+            alert("Invalid key!", 1);
         }
     }
 }

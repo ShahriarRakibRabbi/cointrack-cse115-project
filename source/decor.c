@@ -106,11 +106,12 @@ void textYellow()
     SetConsoleTextAttribute(consoleHandle, 6 | 0);
 }
 
-void sayInvalid()
+void alert(char *message, int time)
 {
+    int wait = time * 1000;
     textRed();
-    printf("\t\tInvalid key!\n");
-    Sleep(1000);
+    printf("\t%s                                ", message);
+    Sleep(wait);
 }
 
 

@@ -217,12 +217,12 @@ void listUsers()
             }
             else
             {
-                sayInvalid();
+                alert("Invalid key!", 1);
             }
         }
         else
         {
-            sayInvalid();
+            alert("Invalid key!", 1);
         }
     }
 }

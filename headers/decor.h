@@ -16,7 +16,7 @@ void textGreen();
 void textRed();
 void textBlue();
 void textYellow();
-void sayInvalid();
+void alert(char *message, int time);
 void stripNewLine(char *str);
 
 // ========================
