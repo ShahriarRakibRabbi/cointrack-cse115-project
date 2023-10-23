@@ -3,7 +3,7 @@
 
 // ========================
 
-void inputPass(char *pass);
+void inputPass(char *pass, int maxLen);
 void regUser();
 void login();
 void adminLogin();

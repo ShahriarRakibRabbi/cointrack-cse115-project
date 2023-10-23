@@ -1,27 +1,26 @@
 #include "../headers/cointrack.h"
 
-void inputPass(char *pass)
-{
+void inputPass(char *pass, int maxLen) {
     int i = 0;
     char c;
-    while(1) {
+    while (1) {
         c = getch();
 
-        if(c == '\r') { // '\r' is the Enter key
+        if (c == '\r' || c == '\n') { // Enter key
             pass[i] = '\0';
             break;
-        } else if(c == '\b') { // '\b' is the Backspace key
-            if(i > 0) {
+        } else if (c == '\b' || c == 127) { // Backspace key
+            if (i > 0) {
                 i--;
-                printf("\b \b"); // Erase the last '*'
+                printf("\b \b"); // Erase the last character
             }
-        } else {
+        } else if (i < maxLen - 1) { // Check if there is space in the buffer
             pass[i++] = c;
             printf("*");
         }
     }
-    pass[i] = '\0';
 }
+
 
 void regUser()
 {
@@ -64,7 +63,7 @@ void regUser()
             
             moveCursor(30, 12);
             fflush(stdin);
-            inputPass(user.pin);
+            inputPass(user.pin, 6);
 
             hideCursor();
             
@@ -122,7 +121,6 @@ void login()
     {
         header("LOGIN");
 
-        char phone[12], pin[6];
         printf("\t\tPhone: \n");
         printf("\t\tPIN: \n");
         
@@ -143,25 +141,28 @@ void login()
             showCursor();
             textYellow();
 
+            char phone[12], pin[6];
             moveCursor(23, 10);
             scanf("%s", &phone);
 
             moveCursor(23, 11);
-            inputPass(pin);
+            inputPass(pin, 6);
             
             hideCursor();
 
             FILE *file = readFile("users.dat");
 
-            User readInfo[userCount];
-            fread(readInfo, sizeof(User), userCount, file);
+            User user[userCount];
+            fread(user, sizeof(User), userCount, file);
 
             for (int i = 0; i < userCount; i++)
             {
-                if (strcmp(readInfo[i].phone, phone) == 0 && strcmp(readInfo[i].pin, pin) == 0)
+                stripNewLine(user[i].phone);
+                stripNewLine(user[i].pin);
+                if (strcmp(user[i].phone, phone) == 0 && strcmp(user[i].pin, pin) == 0)
                 {
                     loggedIn = 1;
-                    curUserId = readInfo[i].id;
+                    curUserId = user[i].id;
                     return;
                 }
             }
@@ -224,7 +225,7 @@ void adminLogin()
             scanf("%s", &email);
 
             moveCursor(26, 11);
-            inputPass(password);
+            inputPass(password, 100);
             
             hideCursor();
 
@@ -298,16 +299,12 @@ void logout()
             loggedIn = 0;
             adminLoggedIn = 0;
             curUserId = 0;
-            system("cls");
-            logo();
-            hLine();
-            nl;
-            title("GOODBYE");
-            nl;
+            
+            header("GOODBYE");
+
             textYellow();
             printf("\tLogged out!", 0);
             textWhite();
-            nl;
             nl;
             hLine();
             Sleep(1500);

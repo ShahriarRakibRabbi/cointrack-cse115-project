@@ -66,7 +66,7 @@ void header(char *text)
         showUsername(1);
         textWhite();
 
-        int x = 62 - floor(log10(userCount ? userCount : 1));
+        int x = 59 - floor(log10(userCount ? userCount : 1));
         moveCursor(x, 8);
         textYellow();
         printf("Wallet Balance: %d\n", userCount);
