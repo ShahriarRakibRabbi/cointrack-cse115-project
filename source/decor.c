@@ -12,15 +12,15 @@ void logo()
     textGreen();
     printf("\t\t      ____      _     _____               _    \n\t\t     / ___|___ (_)_ _|_   _| __ __ _  ___| | __\n\t\t    | |   / _ \\| | '_ \\| || '__/ _` |/ __| |/ /\n\t\t    | |__| (_) | | | | | || | | (_| | (__|   < \n\t\t     \\____\\___/|_|_| |_|_||_|  \\__,_|\\___|_|\\_\\\n");
     textWhite();
-    nl;
 }
 
 void hLine()
 {
+    nl;
     tab;
     for (int i = 0; i < 68; i++)
         printf("%c", 220);
-    printf("\n");
+    nl;
 }
 
 void hLine_thin()
@@ -28,7 +28,7 @@ void hLine_thin()
     tab;
     for (int i = 0; i < 68; i++)
         printf("%c", 205);
-    printf("\n");
+    nl;
 }
 
 void title(char *title)
@@ -49,6 +49,44 @@ void title(char *title)
     {
         printf("%c", 178);
     }
+    nl;
+}
+
+void header(char *text)
+{
+    system("cls");
+    hideCursor();
+    logo();
+    hLine();
+    nl;
+    if (loggedIn)
+    {
+        tab;
+        textYellow();
+        showUsername(1);
+        textWhite();
+
+        int x = 62 - floor(log10(userCount ? userCount : 1));
+        moveCursor(x, 8);
+        textYellow();
+        printf("Wallet Balance: %d\n", userCount);
+        textWhite();
+    }
+    else if (adminLoggedIn)
+    {
+        tab;
+        textYellow();
+        showUsername(2);
+        textWhite();
+
+        int x = 62 - floor(log10(userCount ? userCount : 1));
+        moveCursor(x, 8);
+        textYellow();
+        printf("Total Users: %d\n", userCount);
+        textWhite();
+    }
+
+    title(text);
     nl;
 }
 

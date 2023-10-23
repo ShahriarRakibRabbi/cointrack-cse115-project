@@ -8,6 +8,7 @@ void logo();
 void hLine();
 void hLine_thin();
 void title(char *title);
+void header(char *text);
 void hideCursor();
 void showCursor();
 void moveCursor(int x, int y);

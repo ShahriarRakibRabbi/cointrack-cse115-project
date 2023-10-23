@@ -3,12 +3,8 @@
 
 void quit(int error, char *filename)
 {
-    system("cls");
-    logo();
-    hLine();
-    nl;
-    title("GOODBYE");
-    nl;
+    header("GOODBYE");
+    
     if (error)
     {
         printf("\tError: '%s' doesn't exist.\n", filename);
@@ -17,9 +13,9 @@ void quit(int error, char *filename)
     {
         printf("\tThank you for choosing CoinTrack!\n");
     }
-    nl;
+    
     hLine();
-    nl;
+    
     textRed();
     for (int i = 6; i > 0; i--)
     {
@@ -39,14 +35,7 @@ void startScreen()
 {
     while (1)
     {
-        system("cls");
-
-        logo();
-        hLine();
-        nl;
-
-        title("WELCOME");
-        nl;
+        header("WELCOME");
 
         command("\t\t1  ");
         printf("Login\n");
@@ -57,9 +46,7 @@ void startScreen()
         command("\t\t4  ");
         printf("Exit\n");
 
-        nl;
         hLine();
-        nl;
 
         char command = getch();
         switch (command)
@@ -85,21 +72,7 @@ void startScreen()
 
 void userHome()
 {
-    system("cls");
-    hideCursor();
-
-    logo();
-    hLine();
-    nl;
-
-    title("DASHBOARD");
-    nl;
-
-    tab;
-    textYellow();
-    showUsername(1);
-    textWhite();
-    nl;
+    header("DASHBOARD");
 
     command("\t\t1  ");
     printf("Expense Tracker\n");
@@ -118,11 +91,7 @@ void userHome()
     command("\t\t8  ");
     printf("Logout\n");
 
-    
-    nl;
     hLine();
-    nl;
-    
 
     char command = getch();
     switch (command)
@@ -150,27 +119,7 @@ void userHome()
 
 void adminHome()
 {
-    system("cls");
-    hideCursor();
-
-    logo();
-    hLine();
-    nl;
-
-    title("ADMIN DASHBOARD");
-    nl;
-
-    tab;
-    textYellow();
-    showUsername(2);
-    textWhite();
-
-    int x = 63 - log10(userCount ? userCount : 2);
-    moveCursor(x, 10);
-    textYellow();
-    printf("Total Users: %d\n", userCount);
-    textWhite();
-    nl;
+    header("ADMIN DASHBOARD");
 
     command("\t\t1  ");
     printf("Users\n");
@@ -183,11 +132,7 @@ void adminHome()
     command("\t\t5  ");
     printf("Logout\n");
 
-    
-    nl;
     hLine();
-    nl;
-    
 
     char command = getch();
     switch (command)
@@ -200,10 +145,53 @@ void adminHome()
     case '3':
         break;
     case '4':
+        settings();
         break;
     case '5':
         logout();
         return;
+    default:
+        alert("Invalid key!", 1);
+        break;
+    }
+}
+
+void settings()
+{
+    header("SETTINGS");
+
+    command("\t\t1  ");
+    printf("Change Name\n");
+    command("\t\t2  ");
+    printf("Update email addreses\n");
+    command("\t\t3  ");
+    printf("Update password\n");
+
+    hLine();
+
+    char command = getch();
+    switch (command)
+    {
+    case '1':
+        while (1)
+        {
+            header("CHANGE NAME");
+            char name[50];
+            printf("\tNew name: ");
+            fgets(name, 50, stdin);
+
+            if (strlen(name) < 2)
+            {
+                alert("Name can't be blank!", 1);
+                continue;
+            }
+            changeName(2, name);
+        }
+        break;
+    case '2':
+        break;
+    case '3':
+        break;
     default:
         alert("Invalid key!", 1);
         break;

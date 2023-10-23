@@ -262,13 +262,13 @@ void showUsername(int type)
     if (type == 1)
     {
         FILE *file = readFile("users.dat");
-        User readInfo[userCount];
-        fread(readInfo, sizeof(User), userCount, file);
+        User user[userCount];
+        fread(user, sizeof(User), userCount, file);
         for (int i = 0; i < userCount; i++)
         {
-            if (readInfo[i].id == curUserId)
+            if (user[i].id == curUserId)
             {
-                puts(readInfo[i].name);
+                printf("%s", user[i].name);
                 return;
             }
         }
@@ -277,13 +277,13 @@ void showUsername(int type)
     else if (type == 2)
     {
         FILE *file = readFile("admins.dat");
-        Admin readInfo[adminCount];
-        fread(readInfo, sizeof(Admin), adminCount, file);
+        Admin admin[adminCount];
+        fread(admin, sizeof(Admin), adminCount, file);
         for (int i = 0; i < adminCount; i++)
         {
-            if (readInfo[i].id == curUserId)
+            if (admin[i].id == curUserId)
             {
-                puts(readInfo[i].name);
+                printf("%s", admin[i].name);
                 return;
             }
         }
@@ -295,16 +295,8 @@ void showUsername(int type)
 void listUsers()
 {
     while (1)
-    {
-        system("cls");
-        hideCursor();
-
-        logo();
-        hLine();
-        nl;
-
-        title("USERS");
-        nl;
+    {        
+        header("USERS");
 
         if (userCount > 0)
         {
@@ -379,7 +371,6 @@ void listUsers()
             printf("\t\tNo registerd users.\n");
         }
         
-        nl;
         hLine();
         nl;
         
@@ -426,4 +417,126 @@ void listUsers()
             alert("Invalid key!", 1);
         }
     }
+}
+
+void changeName(int type, char *name)
+{
+    if (type == 1)
+    {
+        FILE *file = readFile("users.dat");
+        User user[userCount];
+        fread(user, sizeof(User), userCount, file);
+        for (int i = 0; i < userCount; i++)
+        {
+            if (user[i].id == curUserId)
+            {
+                strcpy(user[i].name, name);
+                break;
+            }
+        }
+        fclose(file);
+
+        file = writeFile("users.dat");
+        fwrite(user, sizeof(User), userCount, file);
+        fclose(file);
+    }
+    else if (type == 2)
+    {
+        FILE *file = readFile("admins.dat");
+        Admin admin[adminCount];
+        fread(admin, sizeof(Admin), adminCount, file);
+        for (int i = 0; i < adminCount; i++)
+        {
+            if (admin[i].id == curUserId)
+            {
+                strcpy(admin[i].name, name);
+                break;
+            }
+        }
+        fclose(file);
+
+        file = writeFile("admins.dat");
+        fwrite(admin, sizeof(Admin), adminCount, file);
+        fclose(file);
+    }
+}
+
+void updateEmail(char *email)
+{
+    FILE *file = readFile("admins.dat");
+    Admin admin[adminCount];
+    fread(admin, sizeof(Admin), adminCount, file);
+    for (int i = 0; i < adminCount; i++)
+    {
+        if (admin[i].id == curUserId)
+        {
+            strcpy(admin[i].email, email);
+            break;
+        }
+    }
+    fclose(file);
+
+    file = writeFile("admins.dat");
+    fwrite(admin, sizeof(Admin), adminCount, file);
+    fclose(file);
+}
+
+void updatePassword(char *password)
+{
+    FILE *file = readFile("admins.dat");
+    Admin admin[adminCount];
+    fread(admin, sizeof(Admin), adminCount, file);
+    for (int i = 0; i < adminCount; i++)
+    {
+        if (admin[i].id == curUserId)
+        {
+            strcpy(admin[i].password, password);
+            break;
+        }
+    }
+    fclose(file);
+
+    file = writeFile("admins.dat");
+    fwrite(admin, sizeof(Admin), adminCount, file);
+    fclose(file);
+}
+
+void updatePhone(char *phone)
+{
+    FILE *file = readFile("users.dat");
+    User user[userCount];
+    fread(user, sizeof(User), userCount, file);
+    for (int i = 0; i < userCount; i++)
+    {
+        if (user[i].id == curUserId)
+        {
+            strcpy(user[i].phone, phone);
+            break;
+        }
+    }
+    fclose(file);
+
+    file = writeFile("users.dat");
+    fwrite(user, sizeof(User), userCount, file);
+    fclose(file);
+}
+
+void updatePIN(char *pin)
+{
+    FILE *file = readFile("users.dat");
+    User user[userCount];
+    fread(user, sizeof(User), userCount, file);
+    for (int i = 0; i < userCount; i++)
+    {
+        if (user[i].id == curUserId)
+        {
+            strcpy(user[i].pin, pin);
+            break;
+        }
+    }
+    fclose(file);
+
+    file = writeFile("users.dat");
+    fwrite(user, sizeof(User), userCount, file);
+    fclose(file);
 }

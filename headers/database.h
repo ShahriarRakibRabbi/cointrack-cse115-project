@@ -13,6 +13,7 @@ void incrementUserCount();
 void decrementUserCount();
 void deleteUser(int id);
 void deleteAllUsers();
+
 int genUserId();
 void genRandUsers(int count);
 
@@ -26,6 +27,12 @@ void showUsername(int type);
 
 void listUsers();
 void listAdmins();
+
+void changeName(int type, char *name);
+void updateEmail(char *email);
+void updatePassword(char *password);
+void updatePhone(char *phone);
+void updatePIN(char *pin);
 
 // ========= END =========
 

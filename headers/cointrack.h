@@ -29,6 +29,7 @@ void quit(int error, char *filename);
 void startScreen();
 void userHome();
 void adminHome();
+void settings();
 
 // Structures
 typedef struct

@@ -27,19 +27,12 @@ void regUser()
 {
     while (1)
     {
-        system("cls");
-        logo();
-        hLine();
-        nl;
-
-        title("REGISTER");
-        nl;
-
+        header("REGISTER");
+        
         printf("\t\tYour Name: \n");
         printf("\t\tPhone Number: \n");
         printf("\t\t5-digit PIN: \n");
-        nl;
-        // scanf("%s", &username);
+        
         hLine();
         nl;
 
@@ -127,17 +120,12 @@ void login()
 {
     while (1)
     {
-        system("cls");
-        logo();
-        hLine();
-        nl;
-        title("LOGIN");
-        nl;
+        header("LOGIN");
 
         char phone[12], pin[6];
         printf("\t\tPhone: \n");
         printf("\t\tPIN: \n");
-        nl;
+        
         hLine();
         nl;
 
@@ -209,17 +197,12 @@ void adminLogin()
 {
     while (1)
     {
-        system("cls");
-        logo();
-        hLine();
-        nl;
-        title("ADMIN LOGIN");
-        nl;
+        header("ADMIN LOGIN");
 
         char email[100], password[100];
         printf("\t\tEmail: \n");
         printf("\t\tPassword: \n");
-        nl;
+        
         hLine();
         nl;
 
@@ -292,18 +275,12 @@ void logout()
 {
     while (1)
     {
-        system("cls");
-        logo();
-        hLine();
-        nl;
-        title("LOGOUT");
-        nl;
+        header("LOGOUT");
         
         textYellow();
         printf("\tAre you sure you want to logout?\n");
         textWhite();
 
-        nl;
         hLine();
         nl;
 

@@ -10,12 +10,12 @@ int main()
     logo();
     // Sleep(3000);
 
-    // setUserCount(2);
+    // setUserCount(0);
     // setAdminCount(1);
     // seedAdmin();
     userCount = getUserCount();
     adminCount = getAdminCount();
-    // genRandUsers(5);
+    // genRandUsers(10);
     // loggedIn = 1;
     // adminLoggedIn = 1;
     // curUserId = 1;
