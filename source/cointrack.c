@@ -51,9 +51,9 @@ void startScreen()
         command("\t\t1  ");
         printf("Login\n");
         command("\t\t2  ");
-        printf("Register\n");
-        command("\t\t3  ");
         printf("Admin Login\n");
+        command("\t\t3  ");
+        printf("Register\n");
         command("\t\t4  ");
         printf("Exit\n");
 
@@ -68,10 +68,10 @@ void startScreen()
             login();
             return;
         case '2':
-            regUser();
-            break;
-        case '3':
             adminLogin();
+            return;
+        case '3':
+            regUser();
             return;
         case '4':
             quit(0, "");
@@ -129,10 +129,10 @@ void userHome()
     {
     case '1':
         login();
-        break;
+        return;
     case '2':
         regUser();
-        break;
+        return;
     case '3':
         login();
         break;

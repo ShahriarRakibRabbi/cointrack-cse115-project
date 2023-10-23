@@ -13,6 +13,8 @@ void incrementUserCount();
 void decrementUserCount();
 void deleteUser(int id);
 void deleteAllUsers();
+int genUserId();
+void genRandUsers(int count);
 
 void seedAdmin();
 int getAdminCount();

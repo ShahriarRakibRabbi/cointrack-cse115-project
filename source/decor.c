@@ -106,7 +106,7 @@ void textYellow()
     SetConsoleTextAttribute(consoleHandle, 6 | 0);
 }
 
-void alert(char *message, int time)
+void alert(char *message, float time)
 {
     int wait = time * 1000;
     textRed();

@@ -35,7 +35,6 @@ void regUser()
         title("REGISTER");
         nl;
 
-        User regInfo, readInfo[userCount];
         printf("\t\tYour Name: \n");
         printf("\t\tPhone Number: \n");
         printf("\t\t5-digit PIN: \n");
@@ -58,35 +57,37 @@ void regUser()
             showCursor();
             textYellow();
 
-            regInfo.id = userCount + 1;
+            User user;
+            
+            user.id = genUserId();
 
             moveCursor(30, 10);
             fflush(stdin);
-            fgets(regInfo.name, 50, stdin);
+            fgets(user.name, 50, stdin);
 
             moveCursor(30, 11);
             fflush(stdin);
-            fgets(regInfo.phone, 14, stdin);
+            fgets(user.phone, 14, stdin);
             
             moveCursor(30, 12);
             fflush(stdin);
-            inputPass(regInfo.pin);
+            inputPass(user.pin);
 
             hideCursor();
             
-            if (strlen(regInfo.name) < 2)
+            if (strlen(user.name) < 2)
             {
                 alert("\n\t\tName can't be blank!", 2);
                 continue;
             }
 
-            if (strlen(regInfo.phone) != 12)
+            if (strlen(user.phone) != 12)
             {
                 alert("\n\t\tPhone number must have 11 digits!", 2);
                 continue;
             }
 
-            if (strlen(regInfo.pin) != 5)
+            if (strlen(user.pin) != 5)
             {
                 alert("\n\t\tPIN must have 5 digits!", 2);
                 continue;
@@ -94,13 +95,14 @@ void regUser()
 
             FILE *file = appendFile("users.dat");
 
-            fwrite(&regInfo, sizeof(User), 1, file);
+            fwrite(&user, sizeof(User), 1, file);
 
             userCount++;
             incrementUserCount();
-
+            loggedIn = 1;
+            curUserId = user.id;
             fclose(file);
-
+            return;
         }
         else if (command == -32)
         {
@@ -294,7 +296,7 @@ void logout()
         logo();
         hLine();
         nl;
-        title("CONFIRMATION");
+        title("LOGOUT");
         nl;
         
         textYellow();
@@ -323,12 +325,15 @@ void logout()
             logo();
             hLine();
             nl;
+            title("GOODBYE");
+            nl;
             textYellow();
             printf("\tLogged out!", 0);
             textWhite();
             nl;
+            nl;
             hLine();
-            Sleep(1000);
+            Sleep(1500);
             return;
         case -32:
             command = getch();

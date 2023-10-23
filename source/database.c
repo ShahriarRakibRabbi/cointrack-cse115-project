@@ -75,6 +75,7 @@ void incrementUserCount()
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+    userCount = count;
 }
 
 void decrementUserCount()
@@ -90,22 +91,31 @@ void decrementUserCount()
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+    userCount = count;
 }
 
 void deleteUser(int id)
 {
+    int idMatched = 0;
+    if (id < 1 || id >= genUserId())
+    {
+        alert("Invalid user ID!", 1.5);
+        return;
+    }
+
     FILE *file = readFile("users.dat");
 
-    User readInfo[userCount];
-    fread(readInfo, sizeof(User), userCount, file);
+    User user[userCount];
+    fread(user, sizeof(User), userCount, file);
 
     for (int i = 0; i < userCount; i++)
     {
-        if (readInfo[i].id == id)
+        if (user[i].id == id)
         {
+            idMatched = 1;
             for (int j = i; j < userCount-1; j++)
             {
-                readInfo[j] = readInfo[j+1];
+                user[j] = user[j+1];
             }
             break;
         }
@@ -113,9 +123,15 @@ void deleteUser(int id)
 
     fclose(file);
 
+    if (!idMatched)
+    {
+        alert("Invalid user ID!", 1.5);
+        return;
+    }
+
     file = writeFile("users.dat");
 
-    fwrite(readInfo, sizeof(User), userCount-1, file);
+    fwrite(user, sizeof(User), userCount-1, file);
 
     fclose(file);
 
@@ -128,6 +144,47 @@ void deleteAllUsers()
     fclose(file);
 
     setUserCount(0);
+}
+
+int genUserId()
+{
+    if (userCount == 0)
+    {
+        return 1;
+    }
+
+    FILE *file = readFile("users.dat");
+
+    User user[userCount];
+    fread(user, sizeof(User), userCount, file);
+
+    int lastId = user[userCount-1].id;
+
+    fclose(file);
+
+    return lastId+1;
+}
+
+void genRandUsers(int count)
+{
+    FILE *file = appendFile("users.dat");
+
+    User user;
+    int startId = genUserId();
+    for (int i = startId; i < count+startId; i++)
+    {
+        user.id = i;
+        strcpy(user.name, "User");
+        char id[10];
+        sprintf(id, "%d", i);
+        strcat(user.name, id);
+        strcpy(user.phone, "01234567890");
+        strcpy(user.pin, "12345");
+        fwrite(&user, sizeof(User), 1, file);
+        incrementUserCount();
+    }
+
+    fclose(file);
 }
 
 void seedAdmin()
@@ -181,6 +238,7 @@ void incrementAdminCount()
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+    adminCount = count;
 }
 
 void decrementAdminCount()
@@ -196,6 +254,7 @@ void decrementAdminCount()
     fwrite(&count, sizeof(int), 1, file);
 
     fclose(file);
+    adminCount = count;
 }
 
 void showUsername(int type)
