@@ -20,6 +20,12 @@ int main()
     // adminLoggedIn = 1;
     // curUserId = 1;
 
+    FILE *loginFile = readFile("login_status.dat");
+    fread(&loggedIn, sizeof(int), 1, loginFile);
+    fread(&adminLoggedIn, sizeof(int), 1, loginFile);
+    fread(&curUserId, sizeof(int), 1, loginFile);
+    fclose(loginFile);
+
     while(1)
     {
         if (adminLoggedIn)

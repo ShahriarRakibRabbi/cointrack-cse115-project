@@ -163,6 +163,11 @@ void login()
                 {
                     loggedIn = 1;
                     curUserId = user[i].id;
+                    FILE *loginFile = writeFile("login_status.dat");
+                    fwrite(&loggedIn, sizeof(int), 1, loginFile);
+                    fwrite(&adminLoggedIn, sizeof(int), 1, loginFile);
+                    fwrite(&curUserId, sizeof(int), 1, loginFile);
+                    fclose(loginFile);
                     return;
                 }
             }
@@ -240,6 +245,11 @@ void adminLogin()
                 {
                     adminLoggedIn = 1;
                     curUserId = readInfo[i].id;
+                    FILE *loginFile = writeFile("login_status.dat");
+                    fwrite(&loggedIn, sizeof(int), 1, loginFile);
+                    fwrite(&adminLoggedIn, sizeof(int), 1, loginFile);
+                    fwrite(&curUserId, sizeof(int), 1, loginFile);
+                    fclose(loginFile);
                     return;
                 }
             }
@@ -299,6 +309,12 @@ void logout()
             loggedIn = 0;
             adminLoggedIn = 0;
             curUserId = 0;
+
+            FILE *loginFile = writeFile("login_status.dat");
+            fwrite(&loggedIn, sizeof(int), 1, loginFile);
+            fwrite(&adminLoggedIn, sizeof(int), 1, loginFile);
+            fwrite(&curUserId, sizeof(int), 1, loginFile);
+            fclose(loginFile);
             
             header("GOODBYE");
 
