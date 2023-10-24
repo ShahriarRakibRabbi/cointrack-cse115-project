@@ -30,6 +30,11 @@ void startScreen();
 void userHome();
 void adminHome();
 void settings();
+void changeName();
+void changeEmail();
+void changePassword();
+void changePhone();
+void changePIN();
 
 // Structures
 typedef struct

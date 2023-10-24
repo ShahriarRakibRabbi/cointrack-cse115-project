@@ -84,6 +84,8 @@ void regUser()
                 alert("\n\t\tPIN must have 5 digits!", 2);
                 continue;
             }
+            
+            success("\n\t\tYou're Registered and Logged in!", 1.5);
 
             FILE *file = appendFile("users.dat");
 
@@ -143,9 +145,11 @@ void login()
 
             char phone[12], pin[6];
             moveCursor(23, 10);
+            fflush(stdin);
             scanf("%s", &phone);
 
             moveCursor(23, 11);
+            fflush(stdin);
             inputPass(pin, 6);
             
             hideCursor();
@@ -161,6 +165,7 @@ void login()
                 stripNewLine(user[i].pin);
                 if (strcmp(user[i].phone, phone) == 0 && strcmp(user[i].pin, pin) == 0)
                 {
+                    success("\n\t\tLogged in!", 1);
                     loggedIn = 1;
                     curUserId = user[i].id;
                     FILE *loginFile = writeFile("login_status.dat");
@@ -227,9 +232,11 @@ void adminLogin()
             textYellow();
 
             moveCursor(26, 10);
+            fflush(stdin);
             scanf("%s", &email);
 
             moveCursor(26, 11);
+            fflush(stdin);
             inputPass(password, 100);
             
             hideCursor();
@@ -243,6 +250,7 @@ void adminLogin()
             {
                 if (strcmp(readInfo[i].email, email) == 0 && strcmp(readInfo[i].password, password) == 0)
                 {
+                    success("\n\t\tLogged in!", 1);
                     adminLoggedIn = 1;
                     curUserId = readInfo[i].id;
                     FILE *loginFile = writeFile("login_status.dat");

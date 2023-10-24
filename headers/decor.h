@@ -18,6 +18,7 @@ void textRed();
 void textBlue();
 void textYellow();
 void alert(char *message, float time);
+void success(char *message, float time);
 void command(char *command);
 void stripNewLine(char *str);
 

@@ -28,7 +28,7 @@ void showUsername(int type);
 void listUsers();
 void listAdmins();
 
-void changeName(int type, char *name);
+void updateName(int type, char *name);
 void updateEmail(char *email);
 void updatePassword(char *password);
 void updatePhone(char *phone);

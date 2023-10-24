@@ -55,7 +55,6 @@ void title(char *title)
 void header(char *text)
 {
     system("cls");
-    hideCursor();
     logo();
     hLine();
     nl;
@@ -88,6 +87,8 @@ void header(char *text)
 
     title(text);
     nl;
+
+    hideCursor();
 }
 
 void hideCursor()
@@ -148,7 +149,15 @@ void alert(char *message, float time)
 {
     int wait = time * 1000;
     textRed();
-    printf("\t%s                                ", message);
+    printf("\t%s                                     ", message);
+    Sleep(wait);
+}
+
+void success(char *message, float time)
+{
+    int wait = time * 1000;
+    textGreen();
+    printf("\t%s                                     ", message);
     Sleep(wait);
 }
 

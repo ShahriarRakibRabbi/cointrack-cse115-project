@@ -419,7 +419,7 @@ void listUsers()
     }
 }
 
-void changeName(int type, char *name)
+void updateName(int type, char *name)
 {
     if (type == 1)
     {
@@ -470,6 +470,7 @@ void updateEmail(char *email)
     {
         if (admin[i].id == curUserId)
         {
+            stripNewLine(email);
             strcpy(admin[i].email, email);
             break;
         }
@@ -490,6 +491,7 @@ void updatePassword(char *password)
     {
         if (admin[i].id == curUserId)
         {
+            stripNewLine(password);
             strcpy(admin[i].password, password);
             break;
         }
@@ -510,6 +512,7 @@ void updatePhone(char *phone)
     {
         if (user[i].id == curUserId)
         {
+            stripNewLine(phone);
             strcpy(user[i].phone, phone);
             break;
         }
@@ -530,6 +533,7 @@ void updatePIN(char *pin)
     {
         if (user[i].id == curUserId)
         {
+            stripNewLine(pin);
             strcpy(user[i].pin, pin);
             break;
         }
