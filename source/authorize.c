@@ -74,6 +74,12 @@ void regUser()
                 continue;
             }
 
+            if (duplicatePhone(user.phone))
+            {
+                alert("\n\t\tPhone number already exists! Try logging in.", 2);
+                continue;
+            }
+
             if (strlen(user.phone) != 12)
             {
                 alert("\n\t\tPhone number must have 11 digits!", 2);
@@ -241,20 +247,23 @@ void adminLogin()
             fflush(stdin);
             inputPass(password, 100);
             
+            
             hideCursor();
 
             FILE *file = readFile("admins.dat");
+            
 
-            Admin readInfo[adminCount];
-            fread(readInfo, sizeof(Admin), adminCount, file);
-
+            Admin admin[adminCount];
+            fread(admin, sizeof(Admin), adminCount, file);
             for (int i = 0; i < adminCount; i++)
             {
-                if (strcmp(readInfo[i].email, email) == 0 && strcmp(readInfo[i].password, password) == 0)
+                stripNewLine(admin[i].email);
+                stripNewLine(admin[i].password);
+                if (strcmp(admin[i].email, email) == 0 && strcmp(admin[i].password, password) == 0)
                 {
                     success("\n\t\tLogged in!", 1);
                     adminLoggedIn = 1;
-                    curUserId = readInfo[i].id;
+                    curUserId = admin[i].id;
                     FILE *loginFile = writeFile("login_status.dat");
                     fwrite(&loggedIn, sizeof(int), 1, loginFile);
                     fwrite(&adminLoggedIn, sizeof(int), 1, loginFile);

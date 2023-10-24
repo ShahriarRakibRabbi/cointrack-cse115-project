@@ -158,7 +158,7 @@ void alert(char *message, float time)
 {
     int wait = time * 1000;
     textRed();
-    printf("\t%s                                     ", message);
+    printf("\t%s                             ", message);
     Sleep(wait);
 }
 
@@ -166,7 +166,7 @@ void success(char *message, float time)
 {
     int wait = time * 1000;
     textGreen();
-    printf("\t%s                                     ", message);
+    printf("\t%s                             ", message);
     Sleep(wait);
 }
 
@@ -184,4 +184,10 @@ void stripNewLine(char *str)
     {
         str[strlen(str) - 1] = '\0';
     }
+}
+
+void clearBuffer()
+{
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
 }

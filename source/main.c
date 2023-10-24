@@ -4,6 +4,7 @@ void startScreen();
 
 int main()
 {
+    mkdir("data");
     system("cls");
     hideCursor();
 

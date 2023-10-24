@@ -10,12 +10,14 @@
 
 
 // Standard header files
+#include <sys/stat.h>
 #include <windows.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
 #include <conio.h>
 #include <stdio.h>
+
 
 
 // Custom header files

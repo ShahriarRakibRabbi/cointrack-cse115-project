@@ -3,7 +3,7 @@
 FILE *readFile(char *filename)
 {
     FILE *file;
-    char address[256] = "database/";
+    char address[256] = "data/";
     strcat(address, filename);
     file = fopen(address, "rb+");
     if (file == NULL)
@@ -16,7 +16,7 @@ FILE *readFile(char *filename)
 FILE *writeFile(char *filename)
 {
     FILE *file;
-    char address[256] = "database/";
+    char address[256] = "data/";
     strcat(address, filename);
     file = fopen(address, "wb+");
     if (file == NULL)
@@ -29,7 +29,7 @@ FILE *writeFile(char *filename)
 FILE *appendFile(char *filename)
 {
     FILE *file;
-    char address[256] = "database/";
+    char address[256] = "data/";
     strcat(address, filename);
     file = fopen(address, "ab+");
     if (file == NULL)
@@ -206,58 +206,62 @@ void seedAdmin()
 
 int getAdminCount()
 {
-    FILE *file = readFile("admin_count.dat");
+    int count = 0;
+    FILE *file = readFile("admins.dat");
 
-    int count;
-    fread(&count, sizeof(int), 1, file);
+    Admin admin;
+    while(fread(&admin, sizeof(admin), 1, file))
+    {
+        count++;
+    }
 
     fclose(file);
 
     return count;
 }
 
-void setAdminCount(int count)
-{
-    FILE *file = writeFile("admin_count.dat");
+// void setAdminCount(int count)
+// {
+//     FILE *file = writeFile("admin_count.dat");
 
-    fwrite(&count, sizeof(int), 1, file);
+//     fwrite(&count, sizeof(int), 1, file);
 
-    fclose(file);
+//     fclose(file);
 
-    adminCount = count;
-}
+//     adminCount = count;
+// }
 
-void incrementAdminCount()
-{
-    FILE *file = readFile("admin_count.dat");
+// void incrementAdminCount()
+// {
+//     FILE *file = readFile("admin_count.dat");
 
-    int count;
-    fread(&count, sizeof(int), 1, file);
+//     int count;
+//     fread(&count, sizeof(int), 1, file);
 
-    count++;
+//     count++;
 
-    fseek(file, 0, SEEK_SET);
-    fwrite(&count, sizeof(int), 1, file);
+//     fseek(file, 0, SEEK_SET);
+//     fwrite(&count, sizeof(int), 1, file);
 
-    fclose(file);
-    adminCount = count;
-}
+//     fclose(file);
+//     adminCount = count;
+// }
 
-void decrementAdminCount()
-{
-    FILE *file = readFile("admin_count.dat");
+// void decrementAdminCount()
+// {
+//     FILE *file = readFile("admin_count.dat");
 
-    int count;
-    fread(&count, sizeof(int), 1, file);
+//     int count;
+//     fread(&count, sizeof(int), 1, file);
 
-    count--;
+//     count--;
 
-    fseek(file, 0, SEEK_SET);
-    fwrite(&count, sizeof(int), 1, file);
+//     fseek(file, 0, SEEK_SET);
+//     fwrite(&count, sizeof(int), 1, file);
 
-    fclose(file);
-    adminCount = count;
-}
+//     fclose(file);
+//     adminCount = count;
+// }
 
 void showUsername(int type)
 {
@@ -543,4 +547,23 @@ void updatePIN(char *pin)
     file = writeFile("users.dat");
     fwrite(user, sizeof(User), userCount, file);
     fclose(file);
+}
+
+int duplicatePhone(char *phone)
+{
+    FILE *file = readFile("users.dat");
+
+    User user[userCount];
+    fread(user, sizeof(User), userCount, file);
+
+    for (int i = 0; i < userCount; i++)
+    {
+        if (strcmp(user[i].phone, phone) == 0)
+        {
+            return 1;
+        }
+    }
+    fclose(file);
+
+    return 0;
 }

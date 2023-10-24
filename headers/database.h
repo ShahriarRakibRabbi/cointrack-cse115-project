@@ -20,9 +20,9 @@ void genRandUsers(int count);
 
 void seedAdmin();
 int getAdminCount();
-void setAdminCount(int count);
-void incrementAdminCount();
-void decrementAdminCount();
+// void setAdminCount(int count);
+// void incrementAdminCount();
+// void decrementAdminCount();
 
 void showUsername(int type);
 
@@ -34,6 +34,8 @@ void updateEmail(char *email);
 void updatePassword(char *password);
 void updatePhone(char *phone);
 void updatePIN(char *pin);
+
+int duplicatePhone(char *phone);
 
 // ========= END =========
 
