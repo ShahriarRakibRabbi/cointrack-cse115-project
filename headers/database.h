@@ -8,9 +8,10 @@ FILE *writeFile(char *filename);
 FILE *appendFile(char *filename);
 
 int getUserCount();
-void setUserCount(int count);
-void incrementUserCount();
-void decrementUserCount();
+int getActiveUserCount();
+// void setUserCount(int count);
+// void incrementUserCount();
+// void decrementUserCount();
 void deleteUser(int id);
 void deleteAllUsers();
 

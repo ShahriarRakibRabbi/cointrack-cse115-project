@@ -29,8 +29,9 @@ void quit(int error, char *filename);
 void startScreen();
 void userHome();
 void adminHome();
-void settings();
-void changeName();
+void userSettings();
+void adminSettings();
+void changeName(int type);
 void changeEmail();
 void changePassword();
 void changePhone();
@@ -43,6 +44,7 @@ typedef struct
     char name[50];
     char phone[13];
     char pin[7];
+    int active;
 } User;
 
 typedef struct
@@ -51,16 +53,16 @@ typedef struct
     char name[50];
     char email[100];
     char password[100];
+    int active;
 } Admin;
-
 
 // Global variables
 int loggedIn;
 int adminLoggedIn;
 int curUserId;
 int userCount;
+int activeUserCount;
 int adminCount;
-
 
 // ========= END =========
 

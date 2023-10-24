@@ -3,32 +3,74 @@
 
 void quit(int error, char *filename)
 {
-    header("GOODBYE");
+    header("EXIT");
     
     if (error)
     {
-        printf("\tError: '%s' doesn't exist.\n", filename);
+        FILE *file = writeFile(filename);
+        if (file == NULL)
+        {
+            fclose(file);
+            printf("\tError: Unable to create the file'%s'.\n", filename);
+        }
+        else
+        {
+            fclose(file);
+            return;
+        }
     }
     else
     {
-        printf("\tThank you for choosing CoinTrack!\n");
+        printf("\tAre you sure you want to close the app?\n");
     }
     
     hLine();
+    nl;
+
+    command("\t   <-  ");
+    printf("Back");
+    nl;
+    command("\tENTER  ");
+    printf("Exit");
     
-    textRed();
-    for (int i = 6; i > 0; i--)
+    char command = getch();
+
+    if (command == 13)
     {
-        moveCursor(0, 14);
-        printf("\tClosing in %d seconds", i);
-        for (int j = 2; j < 6-i; j++)
+        moveCursor(0, 10);
+        printf("\tThank you for choosing CoinTrack!                    \n");
+        moveCursor(0, 15);
+        alert("", 0);
+        textRed();
+        for (int i = 5; i > 0; i--)
         {
-            printf(".");
+            moveCursor(0, 14);
+            printf("\tClosing in %d seconds", i);
+            for (int j = 2; j < 5-i; j++)
+            {
+                printf(".");
+            }
+            nl;
+            Sleep(1000);
         }
-        nl;
-        Sleep(1000);
+        exit(0);
     }
-    exit(0);
+    else if (command == -32)
+    {
+        command = getch();
+        if (command == 75)
+        {
+            return;
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+    else
+    {
+        alert("Invalid key!", 1);
+    }
 }
 
 void startScreen()
@@ -99,20 +141,23 @@ void userHome()
     switch (command)
     {
     case '1':
-        login();
-        return;
+        break;
     case '2':
-        regUser();
-        return;
+        break;
     case '3':
-        login();
         break;
     case '4':
-        quit(0, "");
+        break;
+    case '5':
+        break;
+    case '6':
+        break;
+    case '7':
+        userSettings();
         break;
     case '8':
         logout();
-        return;
+        break;
     default:
         alert("Invalid key!", 1);
         break;
@@ -148,7 +193,7 @@ void adminHome()
     case '3':
         break;
     case '4':
-        settings();
+        adminSettings();
         break;
     case '5':
         logout();
@@ -159,7 +204,58 @@ void adminHome()
     }
 }
 
-void settings()
+void userSettings()
+{
+    while (1)
+    {
+        header("SETTINGS");
+
+        command("\t\t1  ");
+        printf("Change Name\n");
+        command("\t\t2  ");
+        printf("Update phone number\n");
+        command("\t\t3  ");
+        printf("Update PIN\n");
+
+        hLine();
+        nl;
+        command("\t<-  ");
+        printf("Back");
+
+        char key = getch();
+
+        if (key == -32)
+        {
+            key = getch();
+            if (key == 75)
+            {
+                return;
+            }
+            else
+            {
+                alert("Invalid key!", 1);
+            }
+        }
+
+        switch (key)
+        {
+        case '1':
+            changeName(1);
+            break;
+        case '2':
+            changePhone();
+            break;
+        case '3':
+            changePIN();
+            break;
+        default:
+            alert("Invalid key!", 1);
+            break;
+        }
+    }
+}
+
+void adminSettings()
 {
     while (1)
     {
@@ -195,7 +291,7 @@ void settings()
         switch (key)
         {
         case '1':
-            changeName();
+            changeName(2);
             break;
         case '2':
             changeEmail();
@@ -210,7 +306,7 @@ void settings()
     }
 }
 
-void changeName()
+void changeName(int type)
 {
     while (1)
     {
@@ -248,7 +344,7 @@ void changeName()
             }
             else
             {
-                updateName(2, name);
+                updateName(type, name);
                 success("\tName changed successfully!", 1);
                 return;
             }
@@ -421,7 +517,7 @@ void changePhone()
         {
             showCursor();
             textYellow();
-            moveCursor(24, 11);
+            moveCursor(27, 11);
             fflush(stdin);
             fgets(phone, 13, stdin);
             textWhite();
@@ -485,13 +581,13 @@ void changePIN()
         {
             showCursor();
             textYellow();
-            moveCursor(22, 11);
+            moveCursor(25, 11);
             fflush(stdin);
-            inputPass(pin, 5);
+            inputPass(pin, 6);
             textWhite();
             hideCursor();
             
-            if (strlen(pin) != 6)
+            if (strlen(pin) != 5)
             {
                 alert("\n\t\tPIN must have 5 digits!", 2);
                 continue;

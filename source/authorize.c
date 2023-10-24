@@ -52,6 +52,7 @@ void regUser()
             User user;
             
             user.id = genUserId();
+            user.active = 1;
 
             moveCursor(30, 10);
             fflush(stdin);
@@ -92,7 +93,8 @@ void regUser()
             fwrite(&user, sizeof(User), 1, file);
 
             userCount++;
-            incrementUserCount();
+            activeUserCount++;
+            // incrementUserCount();
             loggedIn = 1;
             curUserId = user.id;
             fclose(file);
@@ -163,7 +165,7 @@ void login()
             {
                 stripNewLine(user[i].phone);
                 stripNewLine(user[i].pin);
-                if (strcmp(user[i].phone, phone) == 0 && strcmp(user[i].pin, pin) == 0)
+                if (strcmp(user[i].phone, phone) == 0 && strcmp(user[i].pin, pin) == 0 && user[i].active)
                 {
                     success("\n\t\tLogged in!", 1);
                     loggedIn = 1;

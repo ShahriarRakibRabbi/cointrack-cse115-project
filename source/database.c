@@ -41,65 +41,66 @@ FILE *appendFile(char *filename)
 
 int getUserCount()
 {
-    FILE *file = readFile("userCount.dat");
+    int count = 0;
+    FILE *file = readFile("users.dat");
 
-    int count;
-    fread(&count, sizeof(int), 1, file);
+    User user;
+    while(fread(&user, sizeof(User), 1, file))
+    {
+        count++;
+    }
 
     fclose(file);
 
     return count;
 }
 
-void setUserCount(int count)
+int getActiveUserCount()
 {
-    FILE *file = writeFile("userCount.dat");
+    int count = 0;
+    FILE *file = readFile("users.dat");
 
-    fwrite(&count, sizeof(int), 1, file);
+    User user;
+    while(fread(&user, sizeof(User), 1, file))
+    {
+        if (user.active == 1)
+        {
+            count++;
+        }
+    }
 
     fclose(file);
 
-    userCount = count;
+    return count;
 }
 
-void incrementUserCount()
-{
-    FILE *file = readFile("userCount.dat");
+// void setUserCount(int count)
+// {
+//     FILE *file = writeFile("user_count.dat");
 
-    int count;
-    fread(&count, sizeof(int), 1, file);
+//     fwrite(&count, sizeof(int), 1, file);
 
-    count++;
+//     fclose(file);
 
-    fseek(file, 0, SEEK_SET);
-    fwrite(&count, sizeof(int), 1, file);
+//     userCount = count;
+// }
 
-    fclose(file);
-    userCount = count;
-}
+// void incrementUserCount()
+// {
+//     activeUserCount++;
+// }
 
-void decrementUserCount()
-{
-    FILE *file = readFile("userCount.dat");
-
-    int count;
-    fread(&count, sizeof(int), 1, file);
-
-    count--;
-
-    fseek(file, 0, SEEK_SET);
-    fwrite(&count, sizeof(int), 1, file);
-
-    fclose(file);
-    userCount = count;
-}
+// void decrementUserCount()
+// {
+//     activeUserCount--;
+// }
 
 void deleteUser(int id)
 {
     int idMatched = 0;
-    if (id < 1 || id >= genUserId())
+    if (id < 1)
     {
-        alert("Invalid user ID!", 1.5);
+        alert("    Invalid user ID!", 1.5);
         return;
     }
 
@@ -108,15 +109,13 @@ void deleteUser(int id)
     User user[userCount];
     fread(user, sizeof(User), userCount, file);
 
-    for (int i = 0; i < userCount; i++)
+    int i;
+    for (i = 0; i < userCount; i++)
     {
-        if (user[i].id == id)
+        if (user[i].id == id && user[i].active)
         {
             idMatched = 1;
-            for (int j = i; j < userCount-1; j++)
-            {
-                user[j] = user[j+1];
-            }
+            user[i].active = 0;
             break;
         }
     }
@@ -125,44 +124,37 @@ void deleteUser(int id)
 
     if (!idMatched)
     {
-        alert("Invalid user ID!", 1.5);
+        alert("    Invalid user ID!", 1.5);
         return;
     }
 
     file = writeFile("users.dat");
 
-    fwrite(user, sizeof(User), userCount-1, file);
-
+    fwrite(user, sizeof(User), userCount, file);
     fclose(file);
 
-    decrementUserCount();
+    // decrementUserCount();
+    activeUserCount--;
+
+    textGreen();
+    stripNewLine(user[i].name);
+    printf("\t    User '%s' has been deleted!", user[i].name);
+    Sleep(1500);
 }
 
-void deleteAllUsers()
-{
-    FILE *file = writeFile("users.dat");
-    fclose(file);
+// void deleteAllUsers()
+// {
+//     FILE *file = writeFile("users.dat");
+//     fclose(file);
 
-    setUserCount(0);
-}
+//     setUserCount(0);
+//     printf("\t    All users has been deleted!");
+//     Sleep(1500);
+// }
 
 int genUserId()
 {
-    if (userCount == 0)
-    {
-        return 1;
-    }
-
-    FILE *file = readFile("users.dat");
-
-    User user[userCount];
-    fread(user, sizeof(User), userCount, file);
-
-    int lastId = user[userCount-1].id;
-
-    fclose(file);
-
-    return lastId+1;
+    return getUserCount()+1;
 }
 
 void genRandUsers(int count)
@@ -174,14 +166,24 @@ void genRandUsers(int count)
     for (int i = startId; i < count+startId; i++)
     {
         user.id = i;
+        user.active = 1;
         strcpy(user.name, "User");
         char id[10];
         sprintf(id, "%d", i);
         strcat(user.name, id);
-        strcpy(user.phone, "01234567890");
+        char phone[12] = "";
+        strcat(phone, id);
+        int stars = 11 - strlen(phone);
+        while (stars--)
+        {
+            strcat(phone, "*");
+        }
+        strcpy(user.phone, phone);
         strcpy(user.pin, "12345");
         fwrite(&user, sizeof(User), 1, file);
-        incrementUserCount();
+        // incrementUserCount();
+        userCount++;
+        activeUserCount++;
     }
 
     fclose(file);
@@ -204,7 +206,7 @@ void seedAdmin()
 
 int getAdminCount()
 {
-    FILE *file = readFile("adminCount.dat");
+    FILE *file = readFile("admin_count.dat");
 
     int count;
     fread(&count, sizeof(int), 1, file);
@@ -216,7 +218,7 @@ int getAdminCount()
 
 void setAdminCount(int count)
 {
-    FILE *file = writeFile("adminCount.dat");
+    FILE *file = writeFile("admin_count.dat");
 
     fwrite(&count, sizeof(int), 1, file);
 
@@ -227,7 +229,7 @@ void setAdminCount(int count)
 
 void incrementAdminCount()
 {
-    FILE *file = readFile("adminCount.dat");
+    FILE *file = readFile("admin_count.dat");
 
     int count;
     fread(&count, sizeof(int), 1, file);
@@ -243,7 +245,7 @@ void incrementAdminCount()
 
 void decrementAdminCount()
 {
-    FILE *file = readFile("adminCount.dat");
+    FILE *file = readFile("admin_count.dat");
 
     int count;
     fread(&count, sizeof(int), 1, file);
@@ -307,18 +309,23 @@ void listUsers()
             printf("\t\t%s\t%s\t\t\t\t%s", "ID", "NAME", "PHONE");
             textWhite();
 
-            User readInfo[userCount];
-            fread(readInfo, sizeof(User), userCount, file);
+            User user[userCount];
+            fread(user, sizeof(User), userCount, file);
 
             for (int i = 0; i < userCount; i++)
             {
+                if (!user[i].active)
+                {
+                    continue;
+                }
+                
                 nl;
                 hLine_thin();
 
-                stripNewLine(readInfo[i].name);
-                stripNewLine(readInfo[i].phone);
+                stripNewLine(user[i].name);
+                stripNewLine(user[i].phone);
 
-                int nameLen = strlen(readInfo[i].name);
+                int nameLen = strlen(user[i].name);
                 int maxLen = 22;
                 int lines = ceil((float) nameLen / maxLen);
                 int center = ((int) ceil(lines / 2.0)) * maxLen;
@@ -326,7 +333,7 @@ void listUsers()
                 
                 if (nameLen <= maxLen || center-maxLen == 0)
                 {
-                    printf("\t\t%d\t", readInfo[i].id);
+                    printf("\t\t%d\t", user[i].id);
                 }
                 else
                 {
@@ -335,19 +342,19 @@ void listUsers()
 
                 for (int j = 0; j < nameLen; j++)
                 {
-                    printf("%c", readInfo[i].name[j]);
+                    printf("%c", user[i].name[j]);
 
                     
                     if (j+1 == center)
                     {
-                        printf("\t\t%s", readInfo[i].phone);
+                        printf("\t\t%s", user[i].phone);
                     }
                     if ((j+1) % maxLen == 0 && j != nameLen-1)
                     {
                         nl;
                         if (nameLen > maxLen && j+1 == center-maxLen)
                         {
-                            printf("\t\t%d\t", readInfo[i].id);
+                            printf("\t\t%d\t", user[i].id);
                         }
                         else
                         {
@@ -361,7 +368,7 @@ void listUsers()
                     {
                         printf(" ");
                     }
-                    printf("\t\t%s", readInfo[i].phone);
+                    printf("\t\t%s", user[i].phone);
                 }
             }
             fclose(file);
@@ -399,18 +406,11 @@ void listUsers()
             nl;
             nl;
             showCursor();
-            printf("\tEnter user ID: ");
+            printf("\t    Enter ID to delete: ");
             int id;
             textYellow();
             scanf("%d", &id);
-            if (id == -1)
-            {
-                deleteAllUsers();
-            }
-            else
-            {
-                deleteUser(id);
-            }
+            deleteUser(id);
         }
         else
         {

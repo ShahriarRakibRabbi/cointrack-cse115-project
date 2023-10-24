@@ -6,16 +6,31 @@ int main()
 {
     system("cls");
     hideCursor();
-    icon();
-    logo();
-    // Sleep(3000);
+
+    printf("Press any key to start...\n\n");
+    
+    textGreen();
+    printf("Press [C] to see a cool animation!");
+
+    char command = getch();
+
+    if (command == 'c' || command == 'C')
+    {
+        system("cls");
+        icon(1);
+        logo();
+        Sleep(3000);
+    }
+    
+    system("cls");
 
     // setUserCount(0);
     // setAdminCount(1);
-    // seedAdmin();
+    seedAdmin();
     userCount = getUserCount();
+    activeUserCount = getActiveUserCount();
     adminCount = getAdminCount();
-    // genRandUsers(10);
+    // genRandUsers(5);
     // loggedIn = 1;
     // adminLoggedIn = 1;
     // curUserId = 1;
