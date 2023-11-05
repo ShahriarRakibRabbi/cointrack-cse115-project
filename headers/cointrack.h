@@ -16,6 +16,7 @@
 #include <string.h>
 #include <math.h>
 #include <conio.h>
+#include <time.h>
 #include <stdio.h>
 
 
@@ -24,6 +25,7 @@
 #include "decor.h"
 #include "authorize.h"
 #include "database.h"
+#include "expense_tracker.h"
 
 
 // Custom functions
@@ -38,8 +40,17 @@ void changeEmail();
 void changePassword();
 void changePhone();
 void changePIN();
+void calendar();
+void printCalendar(int month, int year);
 
 // Structures
+
+typedef struct
+{
+    int day;
+    int month;
+    int year;
+} Date;
 typedef struct
 {
     int id;
@@ -57,6 +68,15 @@ typedef struct
     char password[100];
     int active;
 } Admin;
+
+typedef struct
+{
+    int id;
+    int userId;
+    char details[512];
+    long long amount;
+    Date date;
+} Record;
 
 // Global variables
 int loggedIn;

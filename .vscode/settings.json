@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"stdlib.h": "c",
-		"cointrack.h": "c"
+		"cointrack.h": "c",
+		"expense_tracker.h": "c"
 	}
 }

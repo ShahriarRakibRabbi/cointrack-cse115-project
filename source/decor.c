@@ -186,8 +186,14 @@ void stripNewLine(char *str)
     }
 }
 
-void clearBuffer()
-{
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
+// Date strToDate(char *str)
+// {
+//     Date date;
+//     char *token = strtok(str, "-");
+//     date.day = atoi(token);
+//     token = strtok(NULL, "-");
+//     date.month = atoi(token);
+//     token = strtok(NULL, "-");
+//     date.year = atoi(token);
+//     return date;
+// }

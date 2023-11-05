@@ -192,6 +192,7 @@ void genRandUsers(int count)
 void seedAdmin()
 {
     FILE *file = writeFile("admins.dat");
+    
 
     Admin admin;
     admin.id = 1;
@@ -388,7 +389,7 @@ void listUsers()
         command("\t<-  ");
         printf("Back");
         nl;
-        command("\t 0  ");
+        command("\t -  ");
         printf("Delete users");
         
         char command = getch();
@@ -405,7 +406,7 @@ void listUsers()
                 alert("Invalid key!", 1);
             }
         }
-        else if (command == '0')
+        else if (command == '-')
         {
             nl;
             nl;
@@ -566,4 +567,40 @@ int duplicatePhone(char *phone)
     fclose(file);
 
     return 0;
+}
+
+int getRecordCount()
+{
+    int count = 0;
+    FILE *file = readFile("records.dat");
+
+    Record record;
+    while(fread(&record, sizeof(Record), 1, file))
+    {
+        count++;
+    }
+
+    fclose(file);
+
+    return count;
+}
+
+int genRecordId()
+{
+    int recordCount = getRecordCount();
+
+    // FILE *file = readFile("records.dat");
+    
+    // Record record[recordCount];
+    // fread(record, sizeof(Record), recordCount, file);
+    // fclose(file);
+
+    // for (int i = 1; i < recordCount; i++)
+    // {
+    //     if (record[i].id != record[i-1].id+1)
+    //     {
+    //         return record[i-1].id+1;
+    //     }
+    // }
+    return recordCount+1;
 }

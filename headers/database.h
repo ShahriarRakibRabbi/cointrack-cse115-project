@@ -9,9 +9,6 @@ FILE *appendFile(char *filename);
 
 int getUserCount();
 int getActiveUserCount();
-// void setUserCount(int count);
-// void incrementUserCount();
-// void decrementUserCount();
 void deleteUser(int id);
 void deleteAllUsers();
 
@@ -20,9 +17,6 @@ void genRandUsers(int count);
 
 void seedAdmin();
 int getAdminCount();
-// void setAdminCount(int count);
-// void incrementAdminCount();
-// void decrementAdminCount();
 
 void showUsername(int type);
 
@@ -36,6 +30,9 @@ void updatePhone(char *phone);
 void updatePIN(char *pin);
 
 int duplicatePhone(char *phone);
+
+int getRecordCount();
+int genRecordId();
 
 // ========= END =========
 

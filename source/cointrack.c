@@ -5,9 +5,14 @@ void quit(int error, char *filename)
 {
     header("EXIT");
     
+
     if (error)
     {
+        // printf("\t%s\n", filename);
+        // getch();
+        
         FILE *file = writeFile(filename);
+
         if (file == NULL)
         {
             fclose(file);
@@ -75,6 +80,7 @@ void quit(int error, char *filename)
 
 void startScreen()
 {
+    
     while (1)
     {
         header("WELCOME");
@@ -141,6 +147,7 @@ void userHome()
     switch (command)
     {
     case '1':
+        expenseTracker(1);
         break;
     case '2':
         break;
@@ -151,6 +158,7 @@ void userHome()
     case '5':
         break;
     case '6':
+        calendar();
         break;
     case '7':
         userSettings();
@@ -617,5 +625,142 @@ void changePIN()
         }
 
         updatePIN(pin);
+    }
+}
+
+void calendar()
+{
+    while (1)
+    {
+        header("CALENDAR");
+
+        printf("\t\tMonth (MM): \n");
+        printf("\t\tYear (YYYY): \n");
+        
+        hLine();
+        nl;
+
+        command("\t   <-  ");
+        printf("Back");
+        nl;
+        command("\tENTER  ");
+        printf("Type");
+
+
+        char command = getch();
+        
+        if (command == 13)
+        {
+            showCursor();
+            textYellow();
+
+            char phone[12], pin[6];
+            moveCursor(23, 10);
+            fflush(stdin);
+            scanf("%s", &phone);
+
+            moveCursor(23, 11);
+            fflush(stdin);
+            inputPass(pin, 6);
+            
+            hideCursor();
+
+            FILE *file = readFile("users.dat");
+
+            User user[userCount];
+            fread(user, sizeof(User), userCount, file);
+
+            for (int i = 0; i < userCount; i++)
+            {
+                stripNewLine(user[i].phone);
+                stripNewLine(user[i].pin);
+                if (strcmp(user[i].phone, phone) == 0 && strcmp(user[i].pin, pin) == 0 && user[i].active)
+                {
+                    success("\n\t\tLogged in!", 1);
+                    loggedIn = 1;
+                    curUserId = user[i].id;
+                    FILE *loginFile = writeFile("login_status.dat");
+                    fwrite(&loggedIn, sizeof(int), 1, loginFile);
+                    fwrite(&adminLoggedIn, sizeof(int), 1, loginFile);
+                    fwrite(&curUserId, sizeof(int), 1, loginFile);
+                    fclose(loginFile);
+                    return;
+                }
+            }
+            if (!loggedIn)
+            {
+                hideCursor();
+                alert("\n\t\tInvalid credentials!", 2);
+            }
+            
+            fclose(file);
+
+        }
+        else if (command == -32)
+        {
+            char command = getch();
+            if (command == 75)
+            {
+                return;
+            }
+            else
+            {
+                alert("Invalid key!", 1);
+            }
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+}
+
+void printCalendar(int year, int month)
+{
+    struct tm date = {0};
+    date.tm_year = year - 1900;
+    date.tm_mon = month - 1;
+    date.tm_mday = 1;
+
+    mktime(&date);
+
+    textYellow();
+    printf("\t\tSun   Mon   Tue   Wed   Thu   Fri   Sat\n\n");
+    textWhite();
+
+    int firstDay = date.tm_wday;
+
+    int daysInMonth = 31;
+    if (month == 4 || month == 6 || month == 9 || month == 11)
+    {
+        daysInMonth = 30;
+    }
+    else if (month == 2)
+    {
+        if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+        {
+            daysInMonth = 29;
+        }
+        else
+        {
+            daysInMonth = 28;
+        }
+    }
+
+    printf("\t\t");
+    for (int i = 0; i < firstDay; i++)
+    {
+        printf("      ");
+    }
+
+
+    for (int day = 1; day <= daysInMonth; day++)
+    {
+        printf("%3d   ", day);
+
+        if ((day + firstDay) % 7 == 0 || day == daysInMonth)
+        {
+            printf("\n\n\t\t");
+        }
     }
 }
