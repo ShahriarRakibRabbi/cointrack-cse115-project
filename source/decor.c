@@ -185,15 +185,3 @@ void stripNewLine(char *str)
         str[strlen(str) - 1] = '\0';
     }
 }
-
-// Date strToDate(char *str)
-// {
-//     Date date;
-//     char *token = strtok(str, "-");
-//     date.day = atoi(token);
-//     token = strtok(NULL, "-");
-//     date.month = atoi(token);
-//     token = strtok(NULL, "-");
-//     date.year = atoi(token);
-//     return date;
-// }
