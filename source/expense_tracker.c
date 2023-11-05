@@ -7,7 +7,6 @@ void expenseTracker(int page)
         header("EXPENSE TRACKER");
 
         int recordCount = getRecordCount();
-        printf("\t\tTotal records: %d\n", recordCount);
 
         if (recordCount > 0)
         {
@@ -103,6 +102,12 @@ void expenseTracker(int page)
         nl;
         command("\t -  ");
         printf("Delete Record");
+        nl;
+        command("\t 1  ");
+        printf("Edit Record");
+        nl;
+        command("\t 2  ");
+        printf("Search Record");
         
         char command = getch();
 
@@ -125,6 +130,14 @@ void expenseTracker(int page)
         else if (command == '-')
         {
             deleteRecord();
+        }
+        else if (command == '1')
+        {
+            editRecord();
+        }
+        else if (command == '2')
+        {
+            searchRecord();
         }
         else
         {
@@ -191,5 +204,148 @@ void addRecord()
     FILE *file = appendFile("records.dat");
     fwrite(&record, sizeof(Record), 1, file);
     fclose(file);
+    
+}
+
+void deleteRecord()
+{
+    nl;
+    nl;
+    showCursor();
+    int id;
+    printf("\t    Enter Record ID: ");
+    textYellow();
+    scanf("%d", &id);
+    textWhite();
+
+    FILE *file = readFile("records.dat");
+    Record record;
+    int found = 0;
+    while (fread(&record, sizeof(Record), 1, file))
+    {
+        if (record.id == id)
+        {
+            found = 1;
+            break;
+        }
+    }
+    fclose(file);
+
+    if (!found)
+    {
+        alert("    Record not found!", 1.5);
+        return;
+    }
+
+    int recordCount = getRecordCount();
+
+    file = readFile("records.dat");
+    Record records[recordCount-1];
+    int i = 0;
+    while (fread(&record, sizeof(Record), 1, file))
+    {
+        if (record.id != id)
+        {
+            records[i++] = record;
+        }
+    }
+    fclose(file);
+
+    file = writeFile("records.dat");
+    fwrite(records, sizeof(Record), recordCount-1, file);
+    fclose(file);
+
+    success("    Record deleted!", 1.5);
+}
+
+void editRecord()
+{
+    nl;
+    nl;
+    showCursor();
+    int id;
+    printf("\t    Enter Record ID: ");
+    textYellow();
+    scanf("%d", &id);
+    textWhite();
+    nl;
+
+    int recordCount = getRecordCount(), found = 0;
+
+    FILE *file = readFile("records.dat");
+    Record record[recordCount];
+
+    fread(record, sizeof(Record), recordCount, file);
+    fclose(file);
+
+    for (int i = 0; i < recordCount; i++)
+    {
+        if (record[i].id == id)
+        {
+            found = 1;
+            showCursor();
+            printf("\t    Enter new details for the record\n");
+            
+            printf("\t    Expenditure Type: ");
+            textYellow();
+            fflush(stdin);
+            fgets(record[i].details, 512, stdin);
+
+            int amount;
+            textWhite();
+            printf("\t    Amount: ");
+            textYellow();
+            scanf("%lld", &record[i].amount);
+            
+            int day, month, year;
+            textWhite();
+            printf("\t    Day (DD): ");
+            textYellow();
+            scanf("%d", &day);
+            if (day < 1 || day > 31)
+            {
+                alert("    Invalid day!", 1.5);
+                return;
+            }
+            textWhite();
+            printf("\t    Month (MM): ");
+            textYellow();
+            scanf("%d", &month);
+            if (month < 1 || month > 12)
+            {
+                alert("    Invalid month!", 1.5);
+                return;
+            }
+            textWhite();
+            printf("\t    Year (YYYY): ");
+            textYellow();
+            scanf("%d", &year);
+            if (year < 1000 || year > 9999)
+            {
+                alert("    Invalid year!", 1.5);
+                return;
+            }
+
+            record[i].date.day = day;
+            record[i].date.month = month;
+            record[i].date.year = year;
+            
+            FILE *file = writeFile("records.dat");
+            fwrite(record, sizeof(Record), recordCount, file);
+            fclose(file);
+            success("    Record updated!", 1.5);
+            return;
+        }
+    }
+
+    if (!found)
+    {
+        alert("    Record not found!", 1.5);
+        return;
+    }
+}
+
+void searchRecord()
+{
     
 }

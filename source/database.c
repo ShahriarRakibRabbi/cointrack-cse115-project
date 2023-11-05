@@ -589,18 +589,16 @@ int genRecordId()
 {
     int recordCount = getRecordCount();
 
-    // FILE *file = readFile("records.dat");
-    
-    // Record record[recordCount];
-    // fread(record, sizeof(Record), recordCount, file);
-    // fclose(file);
+    if (recordCount == 0)
+    {
+        return 1;
+    }
 
-    // for (int i = 1; i < recordCount; i++)
-    // {
-    //     if (record[i].id != record[i-1].id+1)
-    //     {
-    //         return record[i-1].id+1;
-    //     }
-    // }
-    return recordCount+1;
+    FILE *file = readFile("records.dat");
+    
+    Record record[recordCount];
+    fread(record, sizeof(Record), recordCount, file);
+    fclose(file);
+
+    return record[recordCount-1].id + 1;
 }
