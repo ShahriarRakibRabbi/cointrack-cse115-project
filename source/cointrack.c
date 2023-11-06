@@ -4,13 +4,9 @@
 void quit(int error, char *filename)
 {
     header("EXIT");
-    
 
     if (error)
     {
-        // printf("\t%s\n", filename);
-        // getch();
-        
         FILE *file = writeFile(filename);
 
         if (file == NULL)
@@ -178,10 +174,10 @@ void adminHome()
 
     command("\t\t1  ");
     printf("Users\n");
-    command("\t\t2  ");
-    printf("Admins\n");
-    command("\t\t3  ");
-    printf("Add Admin\n");
+    // command("\t\t2  ");
+    // printf("Admins\n");
+    // command("\t\t3  ");
+    // printf("Add Admin\n");
     command("\t\t4  ");
     printf("Settings\n");
     command("\t\t5  ");
@@ -196,14 +192,14 @@ void adminHome()
     case '1':
         listUsers();
         break;
+    // case '2':
+    //     break;
+    // case '3':
+    //     break;
     case '2':
-        break;
-    case '3':
-        break;
-    case '4':
         adminSettings();
         break;
-    case '5':
+    case '3':
         logout();
         return;
     default:

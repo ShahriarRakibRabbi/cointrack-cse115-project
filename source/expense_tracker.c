@@ -64,29 +64,34 @@ void expenseTracker(int page)
         header("EXPENSE TRACKER");
 
         int recordCount = getRecordCount();
+        
+        FILE *file = readFile("records.dat");
+        Record record[recordCount];
+        fread(record, sizeof(Record), recordCount, file);
+        fclose(file);
 
-        if (recordCount > 0)
+        Record userRecord[recordCount]; 
+        int userRecordCount = 0;
+
+        for (int i = 0; i < recordCount; i++) {
+            if (record[i].userId == curUserId) {
+                userRecord[userRecordCount] = record[i];
+                userRecordCount++;
+            }
+        }
+
+        if (userRecordCount > 0)
         {
-            FILE *file = readFile("records.dat");
-
             textYellow();
             printf("\t\t%s\t%s\t\t\t%s\t\t%s", "ID", "DETAILS", "DATE", "AMOUNT");
             textWhite();
 
-            Record record[recordCount];
-            fread(record, sizeof(Record), recordCount, file);
-            fclose(file);
 
-            for (int i = 0; i < recordCount; i++)
-            {
-                if (record[i].userId != curUserId)
-                {
-                    continue;
-                }
-
+            for (int i = 0; i < userRecordCount; i++)
+            {        
                 if (i >= (page-1)*recordsPerPage && i < page*recordsPerPage)
                 {
-                    printRecord(record, i);
+                    printRecord(userRecord, i);
                 }
             }
         }
@@ -97,13 +102,13 @@ void expenseTracker(int page)
         
         hLine();
         nl;
-        printf("\t\t\t\t     Page %d of %d", page, (int) ceil((float) recordCount / recordsPerPage));
+        printf("\t\t\t\t     Page %d of %d", page, (int) ceil((float) userRecordCount / recordsPerPage));
         nl;
 
         command("\t<-  ");
         page > 1 ? printf("Previous Page") : printf("Back");
         nl;
-        if (page < (int) ceil((float) recordCount / recordsPerPage))
+        if (page < (int) ceil((float) userRecordCount / recordsPerPage))
         {
             command("\t->  ");
             printf("Next Page");
@@ -147,7 +152,7 @@ void expenseTracker(int page)
             }
             else if (command == 77)
             {
-                if (page < (int) ceil((float) recordCount / recordsPerPage))
+                if (page < (int) ceil((float) userRecordCount / recordsPerPage))
                 {
                     page++;
                 }
@@ -269,7 +274,7 @@ void deleteRecord()
     int found = 0;
     while (fread(&record, sizeof(Record), 1, file))
     {
-        if (record.id == id)
+        if (record.id == id && record.userId == curUserId)
         {
             found = 1;
             break;
@@ -326,7 +331,7 @@ void editRecord()
 
     for (int i = 0; i < recordCount; i++)
     {
-        if (record[i].id == id)
+        if (record[i].id == id && record[i].userId == curUserId)
         {
             found = 1;
             showCursor();
@@ -414,7 +419,7 @@ void searchRecordByDetails()
 
     for (int i = 0; i < recordCount; i++)
     {
-        if (strstr(record[i].details, search) != NULL)
+        if (strstr(record[i].details, search) != NULL && record[i].userId == curUserId)
         {
             found = 1;
             break;
@@ -436,7 +441,7 @@ void searchRecordByDetails()
     for (int i = 0; i < recordCount; i++)
     {
         stripNewLine(record[i].details);
-        if (strstr(record[i].details, search) != NULL)
+        if (strstr(record[i].details, search) != NULL && record[i].userId == curUserId)
         {
             printRecord(record, i);
         }
@@ -488,7 +493,7 @@ void searchRecordByAmountId()
 
     for (int i = 0; i < recordCount; i++)
     {
-        if (record[i].id == amount || record[i].amount == amount)
+        if ((record[i].id == amount || record[i].amount == amount) && record[i].userId == curUserId)
         {
             found = 1;
             break;
@@ -509,7 +514,7 @@ void searchRecordByAmountId()
 
     for (int i = 0; i < recordCount; i++)
     {
-        if (record[i].id == amount || record[i].amount == amount)
+        if ((record[i].id == amount || record[i].amount == amount) && record[i].userId == curUserId)
         {
             printRecord(record, i);
         }
@@ -561,7 +566,7 @@ void searchRecordByDate()
 
     for (int i = 0; i < recordCount; i++)
     {
-        if (record[i].date.day == day && record[i].date.month == month && record[i].date.year == year)
+        if ((record[i].date.day == day && record[i].date.month == month && record[i].date.year == year) && record[i].userId == curUserId)
         {
             found = 1;
             break;
@@ -582,7 +587,7 @@ void searchRecordByDate()
 
     for (int i = 0; i < recordCount; i++)
     {
-        if (record[i].date.day == day && record[i].date.month == month && record[i].date.year == year)
+        if ((record[i].date.day == day && record[i].date.month == month && record[i].date.year == year) && record[i].userId == curUserId)
         {
             printRecord(record, i);
         }

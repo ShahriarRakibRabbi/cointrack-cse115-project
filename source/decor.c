@@ -74,11 +74,11 @@ void header(char *text)
         showUsername(1);
         textWhite();
 
-        int x = 59 - floor(log10(activeUserCount ? activeUserCount : 1));
-        moveCursor(x, 8);
-        textYellow();
-        printf("Wallet Balance: %d\n", activeUserCount);
-        textWhite();
+        // int x = 59 - floor(log10(activeUserCount ? activeUserCount : 1));
+        // moveCursor(x, 8);
+        // textYellow();
+        // printf("Wallet Balance: %d\n", activeUserCount);
+        // textWhite();
     }
     else if (adminLoggedIn)
     {
