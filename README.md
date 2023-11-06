@@ -1,4 +1,4 @@
-# cointrack-cse115-project
+# CoinTrack - Finance Management System
 
 ### Team Members
 
