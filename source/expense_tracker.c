@@ -58,8 +58,9 @@ void printRecord(Record *record, int i)
 
 void expenseTracker(int page)
 {
+    int recordsPerPage = 5;
     while (1)
-    {        
+    {   
         header("EXPENSE TRACKER");
 
         int recordCount = getRecordCount();
@@ -83,7 +84,10 @@ void expenseTracker(int page)
                     continue;
                 }
 
-                printRecord(record, i);
+                if (i >= (page-1)*recordsPerPage && i < page*recordsPerPage)
+                {
+                    printRecord(record, i);
+                }
             }
         }
         else
@@ -93,9 +97,18 @@ void expenseTracker(int page)
         
         hLine();
         nl;
-        
+        printf("\t\t\t\t     Page %d of %d", page, (int) ceil((float) recordCount / recordsPerPage));
+        nl;
+
         command("\t<-  ");
-        printf("Back");
+        page > 1 ? printf("Previous Page") : printf("Back");
+        nl;
+        if (page < (int) ceil((float) recordCount / recordsPerPage))
+        {
+            command("\t->  ");
+            printf("Next Page");
+            nl;
+        }
         nl;
         command("\t +  ");
         printf("Add Record");
@@ -103,16 +116,17 @@ void expenseTracker(int page)
         command("\t -  ");
         printf("Delete Record");
         nl;
-        command("\t 1  ");
+        command("\t *  ");
         printf("Edit Record");
         nl;
-        command("\t 2  ");
+        nl;
+        command("\t 1  ");
         printf("Search by Details");
         nl;
-        command("\t 3  ");
+        command("\t 2  ");
         printf("Search by Date");
         nl;
-        command("\t 4  ");
+        command("\t 3  ");
         printf("Search by Amount or ID");
         
         char command = getch();
@@ -122,7 +136,25 @@ void expenseTracker(int page)
             char command = getch();
             if (command == 75)
             {
-                return;
+                if (page > 1)
+                {
+                    page--;
+                }
+                else
+                {
+                    return;
+                }
+            }
+            else if (command == 77)
+            {
+                if (page < (int) ceil((float) recordCount / recordsPerPage))
+                {
+                    page++;
+                }
+                else
+                {
+                    alert("Invalid key!", 1);
+                }
             }
             else
             {
@@ -137,19 +169,19 @@ void expenseTracker(int page)
         {
             deleteRecord();
         }
-        else if (command == '1')
+        else if (command == '*')
         {
             editRecord();
         }
-        else if (command == '2')
+        else if (command == '1')
         {
             searchRecordByDetails();
         }
-        else if (command == '3')
+        else if (command == '2')
         {
             searchRecordByDate();
         }
-        else if (command == '4')
+        else if (command == '3')
         {
             searchRecordByAmountId();
         }
