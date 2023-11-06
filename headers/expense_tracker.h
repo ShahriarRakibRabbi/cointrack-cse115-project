@@ -7,7 +7,9 @@ void expenseTracker(int page);
 void addRecord();
 void deleteRecord();
 void editRecord();
-void searchRecord();
+void searchRecordByDetails();
+void searchRecordByDate();
+void searchRecordByAmountId();
 
 
 // ========================

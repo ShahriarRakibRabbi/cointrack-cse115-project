@@ -107,7 +107,13 @@ void expenseTracker(int page)
         printf("Edit Record");
         nl;
         command("\t 2  ");
-        printf("Search Record");
+        printf("Search by Details");
+        nl;
+        command("\t 3  ");
+        printf("Search by Date");
+        nl;
+        command("\t 4  ");
+        printf("Search by Amount or ID");
         
         char command = getch();
 
@@ -137,7 +143,15 @@ void expenseTracker(int page)
         }
         else if (command == '2')
         {
-            searchRecord();
+            searchRecordByDetails();
+        }
+        else if (command == '3')
+        {
+            searchRecordByDate();
+        }
+        else if (command == '4')
+        {
+            searchRecordByAmountId();
         }
         else
         {
@@ -345,7 +359,7 @@ void editRecord()
     }
 }
 
-void searchRecord()
+void searchRecordByDetails()
 {
     nl;
     nl;
@@ -391,6 +405,152 @@ void searchRecord()
     {
         stripNewLine(record[i].details);
         if (strstr(record[i].details, search) != NULL)
+        {
+            printRecord(record, i);
+        }
+    }
+
+    hLine();
+    nl;
+    command("\t<-  ");
+    printf("Back");
+    nl;
+
+    char command = getch();
+    if (command == -32)
+    {
+        char command = getch();
+        if (command == 75)
+        {
+            return;
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+    else
+    {
+        alert("Invalid key!", 1);
+    }
+}
+
+void searchRecordByAmountId()
+{
+    nl;
+    nl;
+    showCursor();
+    int id, found = 0;
+    long long int amount;
+    printf("\t    Search for: ");
+    textYellow();
+    scanf("%lld", &amount);
+    textWhite();
+
+    int recordCount = getRecordCount();
+    
+    Record record[recordCount];
+    FILE *file = readFile("records.dat");
+    fread(record, sizeof(Record), recordCount, file);
+    fclose(file);
+
+    for (int i = 0; i < recordCount; i++)
+    {
+        if (record[i].id == amount || record[i].amount == amount)
+        {
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+    {
+        alert("    No records found!", 1.5);
+        return;
+    }
+
+    header("SEARCH RESULTS");
+
+    textYellow();
+    printf("\t\t%s\t%s\t\t\t%s\t\t%s", "ID", "DETAILS", "DATE", "AMOUNT");
+    textWhite();
+
+    for (int i = 0; i < recordCount; i++)
+    {
+        if (record[i].id == amount || record[i].amount == amount)
+        {
+            printRecord(record, i);
+        }
+    }
+
+    hLine();
+    nl;
+    command("\t<-  ");
+    printf("Back");
+    nl;
+
+    char command = getch();
+    if (command == -32)
+    {
+        char command = getch();
+        if (command == 75)
+        {
+            return;
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+    else
+    {
+        alert("Invalid key!", 1);
+    }
+}
+
+void searchRecordByDate()
+{
+    nl;
+    nl;
+    showCursor();
+    int id, found = 0;
+    int day, month, year;
+    printf("\t    Enter Date (DD MM YYYY): ");
+    textYellow();
+    scanf("%d %d %d", &day, &month, &year);
+    textWhite();
+
+    int recordCount = getRecordCount();
+    
+    Record record[recordCount];
+    FILE *file = readFile("records.dat");
+    fread(record, sizeof(Record), recordCount, file);
+    fclose(file);
+
+    for (int i = 0; i < recordCount; i++)
+    {
+        if (record[i].date.day == day && record[i].date.month == month && record[i].date.year == year)
+        {
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found)
+    {
+        alert("    No records found!", 1.5);
+        return;
+    }
+
+    header("SEARCH RESULTS");
+
+    textYellow();
+    printf("\t\t%s\t%s\t\t\t%s\t\t%s", "ID", "DETAILS", "DATE", "AMOUNT");
+    textWhite();
+
+    for (int i = 0; i < recordCount; i++)
+    {
+        if (record[i].date.day == day && record[i].date.month == month && record[i].date.year == year)
         {
             printRecord(record, i);
         }
