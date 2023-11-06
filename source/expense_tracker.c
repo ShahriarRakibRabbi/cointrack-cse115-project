@@ -221,27 +221,19 @@ void addRecord()
     
     int day, month, year;
     textWhite();
-    printf("\t    Day (DD): ");
+    printf("\t    Date (DD MM YYYY): ");
     textYellow();
-    scanf("%d", &day);
+    scanf("%d %d %d", &day, &month, &year);
     if (day < 1 || day > 31)
     {
         alert("    Invalid day!", 1.5);
         return;
     }
-    textWhite();
-    printf("\t    Month (MM): ");
-    textYellow();
-    scanf("%d", &month);
     if (month < 1 || month > 12)
     {
         alert("    Invalid month!", 1.5);
         return;
     }
-    textWhite();
-    printf("\t    Year (YYYY): ");
-    textYellow();
-    scanf("%d", &year);
     if (year < 1000 || year > 9999)
     {
         alert("    Invalid year!", 1.5);
@@ -264,7 +256,7 @@ void deleteRecord()
     nl;
     showCursor();
     int id;
-    printf("\t    Enter Record ID: ");
+    printf("\t    Enter Record ID to Delete: ");
     textYellow();
     scanf("%d", &id);
     textWhite();
@@ -315,7 +307,7 @@ void editRecord()
     nl;
     showCursor();
     int id;
-    printf("\t    Enter Record ID: ");
+    printf("\t    Enter Record ID to Edit: ");
     textYellow();
     scanf("%d", &id);
     textWhite();
@@ -350,27 +342,19 @@ void editRecord()
             
             int day, month, year;
             textWhite();
-            printf("\t    Day (DD): ");
+            printf("\t    Date (DD MM YYYY): ");
             textYellow();
-            scanf("%d", &day);
+            scanf("%d %d %d", &day, &month, &year);
             if (day < 1 || day > 31)
             {
                 alert("    Invalid day!", 1.5);
                 return;
             }
-            textWhite();
-            printf("\t    Month (MM): ");
-            textYellow();
-            scanf("%d", &month);
             if (month < 1 || month > 12)
             {
                 alert("    Invalid month!", 1.5);
                 return;
             }
-            textWhite();
-            printf("\t    Year (YYYY): ");
-            textYellow();
-            scanf("%d", &year);
             if (year < 1000 || year > 9999)
             {
                 alert("    Invalid year!", 1.5);

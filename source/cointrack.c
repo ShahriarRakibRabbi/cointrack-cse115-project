@@ -121,19 +121,21 @@ void userHome()
 
     command("\t\t1  ");
     printf("Expense Tracker\n");
+    // command("\t\t2  ");
+    // printf("Pay Bill\n");
+    // command("\t\t3  ");
+    // printf("Wallet\n");
     command("\t\t2  ");
-    printf("Pay Bill\n");
+    printf("Unit Converter\n");
     command("\t\t3  ");
-    printf("Wallet\n");
-    command("\t\t4  ");
     printf("Calculator\n");
-    command("\t\t5  ");
-    printf("Notepad\n");
-    command("\t\t6  ");
+    // command("\t\t5  ");
+    // printf("Notepad\n");
+    command("\t\t4  ");
     printf("Calendar\n");
-    command("\t\t7  ");
+    command("\t\t5  ");
     printf("Settings\n");
-    command("\t\t8  ");
+    command("\t\t6  ");
     printf("Logout\n");
 
     hLine();
