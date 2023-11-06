@@ -5,25 +5,25 @@ void startScreen();
 int main()
 {
     mkdir("data");
-    // system("cls");
-    // hideCursor();
+    system("cls");
+    hideCursor();
 
-    // printf("Press any key to start...\n\n");
+    printf("Press any key to start...\n\n");
     
-    // textGreen();
-    // printf("Press [C] to see a cool animation!");
+    textGreen();
+    printf("Press [C] to see a cool animation!");
 
-    // char command = getch();
+    char command = getch();
 
-    // if (command == 'c' || command == 'C')
-    // {
-    //     system("cls");
-    //     icon(1);
-    //     logo();
-    //     Sleep(3000);
-    // }
+    if (command == 'c' || command == 'C')
+    {
+        system("cls");
+        icon(1);
+        logo();
+        Sleep(3000);
+    }
     
-    // system("cls");
+    system("cls");
     // ==================================================
 
     // setUserCount(0);

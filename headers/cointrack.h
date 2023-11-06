@@ -42,6 +42,8 @@ void changePhone();
 void changePIN();
 void calendar();
 void printCalendar(int month, int year);
+void unitConverter();
+void calculator();
 
 // Structures
 

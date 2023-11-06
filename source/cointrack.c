@@ -125,17 +125,17 @@ void userHome()
     // printf("Pay Bill\n");
     // command("\t\t3  ");
     // printf("Wallet\n");
-    command("\t\t2  ");
-    printf("Unit Converter\n");
-    command("\t\t3  ");
-    printf("Calculator\n");
+    // command("\t\t2  ");
+    // printf("Unit Converter\n");
+    // command("\t\t3  ");
+    // printf("Calculator\n");
     // command("\t\t5  ");
     // printf("Notepad\n");
-    command("\t\t4  ");
+    command("\t\t2  ");
     printf("Calendar\n");
-    command("\t\t5  ");
+    command("\t\t3  ");
     printf("Settings\n");
-    command("\t\t6  ");
+    command("\t\t4  ");
     printf("Logout\n");
 
     hLine();
@@ -148,20 +148,12 @@ void userHome()
         expenseTracker(1);
         break;
     case '2':
-        break;
-    case '3':
-        break;
-    case '4':
-        break;
-    case '5':
-        break;
-    case '6':
         calendar();
         break;
-    case '7':
+    case '3':
         userSettings();
         break;
-    case '8':
+    case '4':
         logout();
         break;
     default:
@@ -180,9 +172,9 @@ void adminHome()
     // printf("Admins\n");
     // command("\t\t3  ");
     // printf("Add Admin\n");
-    command("\t\t4  ");
+    command("\t\t2  ");
     printf("Settings\n");
-    command("\t\t5  ");
+    command("\t\t3  ");
     printf("Logout\n");
 
     hLine();
@@ -652,47 +644,31 @@ void calendar()
             showCursor();
             textYellow();
 
-            char phone[12], pin[6];
-            moveCursor(23, 10);
-            fflush(stdin);
-            scanf("%s", &phone);
+            int month, year;
+            moveCursor(30, 11);
+            scanf("%d", &month);
 
-            moveCursor(23, 11);
-            fflush(stdin);
-            inputPass(pin, 6);
-            
+            moveCursor(30, 12);
+            scanf("%d", &year);
+
+            textWhite();
             hideCursor();
 
-            FILE *file = readFile("users.dat");
-
-            User user[userCount];
-            fread(user, sizeof(User), userCount, file);
-
-            for (int i = 0; i < userCount; i++)
+            if (month < 1 || month > 12)
             {
-                stripNewLine(user[i].phone);
-                stripNewLine(user[i].pin);
-                if (strcmp(user[i].phone, phone) == 0 && strcmp(user[i].pin, pin) == 0 && user[i].active)
-                {
-                    success("\n\t\tLogged in!", 1);
-                    loggedIn = 1;
-                    curUserId = user[i].id;
-                    FILE *loginFile = writeFile("login_status.dat");
-                    fwrite(&loggedIn, sizeof(int), 1, loginFile);
-                    fwrite(&adminLoggedIn, sizeof(int), 1, loginFile);
-                    fwrite(&curUserId, sizeof(int), 1, loginFile);
-                    fclose(loginFile);
-                    return;
-                }
+                alert("\tInvalid month!", 1);
+                continue;
             }
-            if (!loggedIn)
+            else if (year < 1900 || year > 9999)
             {
-                hideCursor();
-                alert("\n\t\tInvalid credentials!", 2);
+                alert("\tInvalid year!", 1);
+                continue;
             }
-            
-            fclose(file);
-
+            else
+            {
+                printCalendar(year, month);
+                return;
+            }
         }
         else if (command == -32)
         {
@@ -715,6 +691,9 @@ void calendar()
 
 void printCalendar(int year, int month)
 {
+    char title[22];
+    sprintf(title, "CALENDAR (%d-%d)", month, year);
+    header(title);
     struct tm date = {0};
     date.tm_year = year - 1900;
     date.tm_mon = month - 1;
@@ -761,4 +740,39 @@ void printCalendar(int year, int month)
             printf("\n\n\t\t");
         }
     }
+
+    hLine();
+    nl;
+    
+    command("\t   <-  ");
+    printf("Back");
+    nl;
+
+    char command = getch();
+    if (command == -32)
+    {
+        char command = getch();
+        if (command == 75)
+        {
+            return;
+        }
+        else
+        {
+            alert("Invalid key!", 1);
+        }
+    }
+    else
+    {
+        alert("Invalid key!", 1);
+    }
+}
+
+void unitConverter()
+{
+
+}
+
+void calculator()
+{
+
 }

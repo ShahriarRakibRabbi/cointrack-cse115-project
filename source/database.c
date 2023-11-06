@@ -197,7 +197,7 @@ void seedAdmin()
     Admin admin;
     admin.id = 1;
     strcpy(admin.name, "Shafin Rahman");
-    strcpy(admin.email, "asdf");
+    strcpy(admin.email, "sfr1@nsu.edu");
     strcpy(admin.password, "asdf");
 
     fwrite(&admin, sizeof(Admin), 1, file);
