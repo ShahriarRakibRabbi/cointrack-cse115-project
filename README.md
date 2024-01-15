@@ -8,7 +8,8 @@
 
 ### **GitHub Repo Link:** https://github.com/Aminul-Islam7/cointrack-cse115-project
 
-##Login Details (Admin & User)
+##Login Details (Admin & User) :
+--------------------------------
 ### Admin Login Details
 
 **Email:** sfr1@nsu.edu
